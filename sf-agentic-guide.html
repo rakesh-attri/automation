@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Salesforce Agentic Automation Framework</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg2: #0f1218;
+    --bg3: #161b24;
+    --surface: #1c2333;
+    --border: #2a3448;
+    --accent: #00d4ff;
+    --accent2: #7c6aff;
+    --accent3: #00ff9d;
+    --warn: #ff6b35;
+    --text: #e2e8f0;
+    --muted: #7a8ba0;
+    --code-bg: #0d1117;
+    --milestone1: #00d4ff;
+    --milestone2: #7c6aff;
+    --milestone3: #00ff9d;
+    --milestone4: #ff6b35;
+    --milestone5: #ffd700;
+    --milestone6: #ff4d9e;
+    --milestone7: #4dffb4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .hero {
+    background: linear-gradient(135deg, #0a0c10 0%, #0f1a2e 50%, #0a1520 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(124,106,255,0.07) 0%, transparent 70%);
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 4px;
+    padding: 5px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .badge-dot { width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 700px;
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+  .tech-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .pill-blue { background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); color: var(--accent); }
+  .pill-purple { background: rgba(124,106,255,0.1); border: 1px solid rgba(124,106,255,0.3); color: var(--accent2); }
+  .pill-green { background: rgba(0,255,157,0.1); border: 1px solid rgba(0,255,157,0.3); color: var(--accent3); }
+  .pill-orange { background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.3); color: var(--warn); }
+
+  /* LAYOUT */
+  .layout { display: flex; max-width: 1100px; margin: 0 auto; padding: 40px; gap: 40px; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+  }
+  .sidebar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 6px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  .nav-item:hover { color: var(--text); background: var(--surface); border-color: var(--border); }
+  .nav-item.active { color: var(--accent); background: rgba(0,212,255,0.07); border-color: rgba(0,212,255,0.2); }
+  .nav-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* MAIN CONTENT */
+  .main { flex: 1; min-width: 0; }
+
+  /* MILESTONE SECTIONS */
+  .milestone {
+    margin-bottom: 60px;
+    scroll-margin-top: 20px;
+  }
+  .milestone-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .milestone-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+  .milestone-title { font-size: 22px; font-weight: 700; }
+  .milestone-desc { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  /* STEPS */
+  .step {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .step-header:hover { background: rgba(255,255,255,0.02); }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-title { font-size: 14px; font-weight: 600; flex: 1; }
+  .step-chevron { color: var(--muted); font-size: 12px; transition: transform 0.2s; }
+  .step.open .step-chevron { transform: rotate(90deg); }
+  .step-body { display: none; padding: 0 20px 20px; }
+  .step.open .step-body { display: block; }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 14px 0;
+    overflow: hidden;
+  }
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 14px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border);
+  }
+  .code-file {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+  }
+  .code-lang {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .code-copy {
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.2);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .code-copy:hover { background: rgba(0,212,255,0.2); }
+  pre {
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #cdd9e5;
+  }
+  .kw { color: #ff7b72; }
+  .str { color: #a5d6ff; }
+  .cm { color: #8b949e; font-style: italic; }
+  .fn { color: #d2a8ff; }
+  .num { color: #79c0ff; }
+  .var { color: #ffa657; }
+  .obj { color: #7ee787; }
+
+  /* INFO BOXES */
+  .info-box {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 14px 0;
+    font-size: 13px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .info-box-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .info-tip { background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.2); }
+  .info-warn { background: rgba(255,107,53,0.06); border: 1px solid rgba(255,107,53,0.2); color: #ffc4a8; }
+  .info-success { background: rgba(0,255,157,0.06); border: 1px solid rgba(0,255,157,0.2); color: #9effd8; }
+
+  /* FILE TREE */
+  .file-tree {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+  }
+  .ft-dir { color: var(--accent2); font-weight: 600; }
+  .ft-file { color: #cdd9e5; }
+  .ft-gen { color: var(--accent3); font-style: italic; }
+  .ft-comment { color: var(--muted); }
+
+  /* AGENT CARDS */
+  .agent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .agent-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .agent-icon { font-size: 24px; margin-bottom: 10px; }
+  .agent-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .agent-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .agent-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  /* FLOW DIAGRAM */
+  .flow { display: flex; align-items: center; gap: 0; margin: 20px 0; flex-wrap: wrap; }
+  .flow-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 100px;
+  }
+  .flow-arrow {
+    color: var(--muted);
+    font-size: 18px;
+    padding: 0 8px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-tracker {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 40px;
+  }
+  .progress-title { font-size: 13px; font-weight: 700; margin-bottom: 14px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+  .milestones-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ms-pill {
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  p { font-size: 13px; color: #b0bdd0; margin: 8px 0; }
+  ul, ol { padding-left: 20px; font-size: 13px; color: #b0bdd0; }
+  li { margin: 5px 0; }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: rgba(255,255,255,0.07);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+  strong { color: var(--text); }
+
+  h3 { font-size: 15px; font-weight: 700; margin: 20px 0 10px; color: var(--text); }
+  h4 { font-size: 13px; font-weight: 700; margin: 14px 0 8px; color: var(--accent2); font-family: 'JetBrains Mono', monospace; }
+
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+  .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 3px; }
+
+  @media (max-width: 768px) {
+    .layout { flex-direction: column; padding: 20px; }
+    .sidebar { width: 100%; position: static; }
+    .agent-grid { grid-template-columns: 1fr; }
+    .hero { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="badge"><span class="badge-dot"></span>Autonomous AI Framework</div>
+    <h1>Salesforce Agentic<br/>Automation Framework</h1>
+    <p class="subtitle">A production-ready, AI-driven test automation system using Playwright + MCP + Agentic Agents. From "automate Lead creation" to full test suite — automatically.</p>
+    <div class="tech-pills">
+      <span class="pill pill-blue">Node.js 20+</span>
+      <span class="pill pill-blue">Playwright</span>
+      <span class="pill pill-blue">MCP Browser Tools</span>
+      <span class="pill pill-purple">Planner Agent</span>
+      <span class="pill pill-purple">Generator Agent</span>
+      <span class="pill pill-purple">Healer Agent</span>
+      <span class="pill pill-purple">Orchestrator</span>
+      <span class="pill pill-green">Allure Reports</span>
+      <span class="pill pill-green">Screenshots</span>
+      <span class="pill pill-orange">CI/CD Ready</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- SIDEBAR NAV -->
+  <aside class="sidebar">
+    <div class="sidebar-label">Milestones</div>
+    <a class="nav-item active" href="#m1">
+      <span class="nav-num" style="background:rgba(0,212,255,0.15);color:var(--milestone1)">1</span>
+      Prerequisites
+    </a>
+    <a class="nav-item" href="#m2">
+      <span class="nav-num" style="background:rgba(124,106,255,0.15);color:var(--milestone2)">2</span>
+      Project Setup
+    </a>
+    <a class="nav-item" href="#m3">
+      <span class="nav-num" style="background:rgba(0,255,157,0.15);color:var(--milestone3)">3</span>
+      MCP + Config
+    </a>
+    <a class="nav-item" href="#m4">
+      <span class="nav-num" style="background:rgba(255,107,53,0.15);color:var(--milestone4)">4</span>
+      Agent System
+    </a>
+    <a class="nav-item" href="#m5">
+      <span class="nav-num" style="background:rgba(255,215,0,0.15);color:var(--milestone5)">5</span>
+      Tasks + Memory
+    </a>
+    <a class="nav-item" href="#m6">
+      <span class="nav-num" style="background:rgba(255,77,158,0.15);color:var(--milestone6)">6</span>
+      Reports
+    </a>
+    <a class="nav-item" href="#m7">
+      <span class="nav-num" style="background:rgba(77,255,180,0.15);color:var(--milestone7)">7</span>
+      CI/CD + Run
+    </a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- PROGRESS OVERVIEW -->
+    <div class="progress-tracker">
+      <div class="progress-title">📍 Framework Roadmap</div>
+      <div class="milestones-row">
+        <a class="ms-pill" href="#m1" style="background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.3);color:var(--milestone1)">M1: Prerequisites</a>
+        <a class="ms-pill" href="#m2" style="background:rgba(124,106,255,0.12);border:1px solid rgba(124,106,255,0.3);color:var(--milestone2)">M2: Project Setup</a>
+        <a class="ms-pill" href="#m3" style="background:rgba(0,255,157,0.12);border:1px solid rgba(0,255,157,0.3);color:var(--milestone3)">M3: MCP + Config</a>
+        <a class="ms-pill" href="#m4" style="background:rgba(255,107,53,0.12);border:1px solid rgba(255,107,53,0.3);color:var(--milestone4)">M4: Agent System</a>
+        <a class="ms-pill" href="#m5" style="background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.3);color:var(--milestone5)">M5: Tasks + Memory</a>
+        <a class="ms-pill" href="#m6" style="background:rgba(255,77,158,0.12);border:1px solid rgba(255,77,158,0.3);color:var(--milestone6)">M6: Reports</a>
+        <a class="ms-pill" href="#m7" style="background:rgba(77,255,180,0.12);border:1px solid rgba(77,255,180,0.3);color:var(--milestone7)">M7: CI/CD + Run</a>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="step open" style="margin-bottom:40px;">
+      <div class="step-header" onclick="toggle(this)">
+        <span style="font-size:20px">⚙️</span>
+        <span class="step-title" style="font-size:16px">How the Agentic Flow Works</span>
+        <span class="step-chevron">▶</span>
+      </div>
+      <div class="step-body">
+        <div class="flow" style="gap:0;overflow-x:auto;padding-bottom:8px;">
+          <div class="flow-box" style="border-color:var(--accent);color:var(--accent)">📝 task.md<br/><span style="font-size:10px;color:var(--muted)">You write this</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box" style="border-color:var(--accent2);color:var(--accent2)">🧠 Orchestrator<br/><span style="font-size:10px;color:var(--muted)">Coordinates agents</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box" style="border-color:var(--accent3);color:var(--accent3)">🔍 Planner<br/><span style="font-size:10px;color:var(--muted)">Explores SF via MCP</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box" style="border-color:var(--warn);color:var(--warn)">⚡ Generator<br/><span style="font-size:10px;color:var(--muted)">Writes .spec.js</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box" style="border-color:#ffd700;color:#ffd700">▶ Runner<br/><span style="font-size:10px;color:var(--muted)">Executes tests</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box" style="border-color:#ff4d9e;color:#ff4d9e">🩹 Healer<br/><span style="font-size:10px;color:var(--muted)">Auto-fixes failures</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box" style="border-color:#4dffb4;color:#4dffb4">📊 Allure Report<br/><span style="font-size:10px;color:var(--muted)">Rich HTML report</span></div>
+        </div>
+        <div class="info-box info-success" style="margin-top:16px;">
+          <span class="info-box-icon">✨</span>
+          <div>You just write a <code>task.md</code> file in plain English. The Orchestrator reads it, spins up the Planner to explore your Salesforce org live via MCP browser control, generates a detailed test plan, then the Generator writes real Playwright tests, executes them, and if anything breaks the Healer auto-fixes locators. Allure report is generated at the end.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== MILESTONE 1 ======================== -->
+    <section class="milestone" id="m1">
+      <div class="milestone-header">
+        <span class="milestone-badge" style="background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.3);color:var(--milestone1)">M1</span>
+        <div>
+          <div class="milestone-title">Prerequisites & Tools Installation</div>
+          <div class="milestone-desc">Install everything needed before project creation</div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(0,212,255,0.15);color:var(--accent)">1</span>
+          <span class="step-title">Install Node.js 20+ (LTS)</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <p>Use <strong>nvm</strong> (Node Version Manager) for easy version switching:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">Terminal</span><span class="code-lang">bash</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cm"># Install nvm (Mac/Linux)</span>
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc  <span class="cm"># or ~/.zshrc</span>
+
+<span class="cm"># Install Node 20 LTS</span>
+nvm install 20
+nvm use 20
+nvm alias default 20
+
+<span class="cm"># Verify</span>
+node --version   <span class="cm"># Should be v20.x.x</span>
+npm --version    <span class="cm"># Should be 10.x.x</span>
+
+<span class="cm"># Windows: Download from https://nodejs.org (LTS version)</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(0,212,255,0.15);color:var(--accent)">2</span>
+          <span class="step-title">Install VS Code + Extensions</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">VS Code Extensions (install from marketplace)</span><span class="code-lang">list</span></div>
+            <pre><span class="str">Playwright Test for VS Code</span>       <span class="cm">→ ms-playwright.playwright</span>
+<span class="str">GitHub Copilot</span>                    <span class="cm">→ GitHub.copilot (for agent assistance)</span>
+<span class="str">Copilot Chat</span>                      <span class="cm">→ GitHub.copilot-chat</span>
+<span class="str">ESLint</span>                            <span class="cm">→ dbaeumer.vscode-eslint</span>
+<span class="str">Prettier</span>                          <span class="cm">→ esbenp.prettier-vscode</span>
+<span class="str">YAML</span>                              <span class="cm">→ redhat.vscode-yaml</span>
+<span class="str">Allure Report</span>                     <span class="cm">→ yskkin.allure-playwright</span></pre>
+          </div>
+          <div class="info-box info-tip">
+            <span class="info-box-icon">💡</span>
+            <div>GitHub Copilot is your main AI agent in VS Code. It reads the <code>.md</code> task files and MCP context to generate Playwright tests automatically.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(0,212,255,0.15);color:var(--accent)">3</span>
+          <span class="step-title">Install Allure CLI (for reports)</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">Terminal</span><span class="code-lang">bash</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cm"># Mac (Homebrew)</span>
+brew install allure
+
+<span class="cm"># Windows (Scoop)</span>
+scoop install allure
+
+<span class="cm"># Or via npm globally</span>
+npm install -g allure-commandline
+
+<span class="cm"># Verify</span>
+allure --version  <span class="cm"># Should output version number</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(0,212,255,0.15);color:var(--accent)">4</span>
+          <span class="step-title">Install Git & Setup GitHub Account</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">Terminal</span><span class="code-lang">bash</span></div>
+            <pre><span class="cm"># Verify git installation</span>
+git --version
+
+<span class="cm"># Configure git identity</span>
+git config --global user.name <span class="str">"Your Name"</span>
+git config --global user.email <span class="str">"your@email.com"</span></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== MILESTONE 2 ======================== -->
+    <section class="milestone" id="m2">
+      <div class="milestone-header">
+        <span class="milestone-badge" style="background:rgba(124,106,255,0.12);border:1px solid rgba(124,106,255,0.3);color:var(--milestone2)">M2</span>
+        <div>
+          <div class="milestone-title">Project Creation & Structure</div>
+          <div class="milestone-desc">Initialize the project, install all dependencies, set up folder structure</div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(124,106,255,0.15);color:var(--milestone2)">1</span>
+          <span class="step-title">Create Project & Install Dependencies</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">Terminal</span><span class="code-lang">bash</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cm"># Create project directory</span>
+mkdir sf-agentic-framework
+cd sf-agentic-framework
+
+<span class="cm"># Initialize npm project</span>
+npm init -y
+
+<span class="cm"># Install Playwright (core)</span>
+npm install -D @playwright/test
+
+<span class="cm"># Install Playwright browsers</span>
+npx playwright install chromium
+npx playwright install-deps  <span class="cm"># Linux only</span>
+
+<span class="cm"># Install Playwright MCP server (official Microsoft)</span>
+npm install -D @playwright/mcp
+
+<span class="cm"># Install Allure Playwright reporter</span>
+npm install -D allure-playwright allure-js-commons
+
+<span class="cm"># Install dotenv for credentials</span>
+npm install dotenv
+
+<span class="cm"># Install fs-extra for file operations in agents</span>
+npm install fs-extra
+
+<span class="cm"># Install Anthropic SDK (for Claude API calls in agents)</span>
+npm install @anthropic-ai/sdk
+
+<span class="cm"># Install chalk for colored terminal output</span>
+npm install chalk
+
+<span class="cm"># Dev utilities</span>
+npm install -D eslint prettier cross-env</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(124,106,255,0.15);color:var(--milestone2)">2</span>
+          <span class="step-title">Project Folder Structure</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <p>Create this exact folder structure. <span style="color:var(--accent3)">Green items</span> are auto-generated by agents.</p>
+          <div class="file-tree">
+<span class="ft-dir">sf-agentic-framework/</span>
+├── <span class="ft-dir">.github/</span>
+│   └── <span class="ft-dir">workflows/</span>
+│       └── <span class="ft-file">ci.yml</span>              <span class="ft-comment"># CI/CD pipeline</span>
+├── <span class="ft-dir">agents/</span>
+│   ├── <span class="ft-file">orchestrator.js</span>      <span class="ft-comment"># Master coordinator</span>
+│   ├── <span class="ft-file">planner-agent.js</span>     <span class="ft-comment"># Explores SF, writes plan</span>
+│   ├── <span class="ft-file">generator-agent.js</span>   <span class="ft-comment"># Writes Playwright tests</span>
+│   └── <span class="ft-file">healer-agent.js</span>      <span class="ft-comment"># Fixes failing tests</span>
+├── <span class="ft-dir">config/</span>
+│   ├── <span class="ft-file">playwright.config.js</span> <span class="ft-comment"># Main Playwright config</span>
+│   └── <span class="ft-file">mcp.config.json</span>      <span class="ft-comment"># MCP server settings</span>
+├── <span class="ft-dir">memory/</span>
+│   ├── <span class="ft-file">framework-memory.md</span>  <span class="ft-comment"># Persistent agent memory</span>
+│   ├── <span class="ft-file">sf-selectors.md</span>      <span class="ft-comment"># Known SF locators</span>
+│   └── <span class="ft-file">agent-context.md</span>     <span class="ft-comment"># Shared agent context</span>
+├── <span class="ft-dir">tasks/</span>
+│   ├── <span class="ft-file">lead-creation.md</span>     <span class="ft-comment"># Your task definitions</span>
+│   └── <span class="ft-file">opportunity-flow.md</span>
+├── <span class="ft-gen">specs/</span>                   <span class="ft-comment"># 🤖 AUTO-GENERATED by Planner</span>
+│   └── <span class="ft-gen">lead-creation-plan.md</span>
+├── <span class="ft-gen">tests/</span>                   <span class="ft-comment"># 🤖 AUTO-GENERATED by Generator</span>
+│   └── <span class="ft-gen">lead-creation.spec.js</span>
+├── <span class="ft-dir">utils/</span>
+│   ├── <span class="ft-file">sf-helpers.js</span>        <span class="ft-comment"># SF-specific utilities</span>
+│   ├── <span class="ft-file">locator-utils.js</span>     <span class="ft-comment"># Smart locator helpers</span>
+│   └── <span class="ft-file">reporter-utils.js</span>    <span class="ft-comment"># Report helpers</span>
+├── <span class="ft-dir">reports/</span>
+│   ├── <span class="ft-dir">allure-results/</span>      <span class="ft-comment"># Raw Allure data</span>
+│   └── <span class="ft-dir">allure-report/</span>       <span class="ft-comment"># Generated HTML report</span>
+├── <span class="ft-dir">screenshots/</span>            <span class="ft-comment"># Failure screenshots</span>
+├── <span class="ft-dir">scripts/</span>
+│   ├── <span class="ft-file">run-agent.js</span>         <span class="ft-comment"># Main entry: node scripts/run-agent.js</span>
+│   └── <span class="ft-file">setup.js</span>             <span class="ft-comment"># One-time project setup</span>
+├── <span class="ft-file">.env</span>                     <span class="ft-comment"># Salesforce credentials (git-ignored)</span>
+├── <span class="ft-file">.env.example</span>
+├── <span class="ft-file">.gitignore</span>
+└── <span class="ft-file">package.json</span>
+          </div>
+          <div class="code-block" style="margin-top:14px;">
+            <div class="code-header"><span class="code-file">Terminal — Create all directories</span><span class="code-lang">bash</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre>mkdir -p agents config memory tasks specs tests utils reports/allure-results reports/allure-report screenshots scripts .github/workflows</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(124,106,255,0.15);color:var(--milestone2)">3</span>
+          <span class="step-title">package.json — Scripts & Config</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">package.json</span><span class="code-lang">json</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre>{
+  <span class="str">"name"</span>: <span class="str">"sf-agentic-framework"</span>,
+  <span class="str">"version"</span>: <span class="str">"1.0.0"</span>,
+  <span class="str">"description"</span>: <span class="str">"Autonomous AI-driven Salesforce Automation"</span>,
+  <span class="str">"type"</span>: <span class="str">"module"</span>,
+  <span class="str">"scripts"</span>: {
+    <span class="cm">// 🚀 Main agentic runner — provide your task.md</span>
+    <span class="str">"agent:run"</span>: <span class="str">"node scripts/run-agent.js"</span>,
+
+    <span class="cm">// Run specific task</span>
+    <span class="str">"agent:lead"</span>: <span class="str">"node scripts/run-agent.js --task tasks/lead-creation.md"</span>,
+    <span class="str">"agent:opportunity"</span>: <span class="str">"node scripts/run-agent.js --task tasks/opportunity-flow.md"</span>,
+
+    <span class="cm">// Playwright test commands</span>
+    <span class="str">"test"</span>: <span class="str">"npx playwright test"</span>,
+    <span class="str">"test:headed"</span>: <span class="str">"npx playwright test --headed"</span>,
+    <span class="str">"test:debug"</span>: <span class="str">"npx playwright test --debug"</span>,
+    <span class="str">"test:ui"</span>: <span class="str">"npx playwright test --ui"</span>,
+
+    <span class="cm">// Report commands</span>
+    <span class="str">"report:allure"</span>: <span class="str">"allure generate reports/allure-results -o reports/allure-report --clean && allure open reports/allure-report"</span>,
+    <span class="str">"report:playwright"</span>: <span class="str">"npx playwright show-report"</span>,
+
+    <span class="cm">// CI command (no headed, with retries)</span>
+    <span class="str">"test:ci"</span>: <span class="str">"cross-env CI=true npx playwright test --retries=2"</span>,
+
+    <span class="cm">// Full agentic CI pipeline</span>
+    <span class="str">"pipeline"</span>: <span class="str">"node scripts/run-agent.js && npm run test:ci && npm run report:allure"</span>,
+
+    <span class="cm">// Setup (run once)</span>
+    <span class="str">"setup"</span>: <span class="str">"node scripts/setup.js"</span>
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(124,106,255,0.15);color:var(--milestone2)">4</span>
+          <span class="step-title">.env Setup — Salesforce Credentials</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">.env.example</span><span class="code-lang">env</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cm"># Salesforce Credentials</span>
+SF_URL=https://your-org.lightning.force.com
+SF_USERNAME=your@email.com
+SF_PASSWORD=yourpassword
+SF_SECURITY_TOKEN=yourSecurityToken
+
+<span class="cm"># AI Agent (Claude API)</span>
+ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxx
+
+<span class="cm"># Test Config</span>
+HEADLESS=true
+SLOW_MO=0
+TIMEOUT=30000
+BASE_URL=https://your-org.lightning.force.com
+
+<span class="cm"># Allure</span>
+ALLURE_RESULTS_DIR=./reports/allure-results</pre>
+          </div>
+          <div class="info-box info-warn">
+            <span class="info-box-icon">⚠️</span>
+            <div>Always add <code>.env</code> to your <code>.gitignore</code>. Never commit real Salesforce credentials. Use GitHub Secrets for CI/CD.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== MILESTONE 3 ======================== -->
+    <section class="milestone" id="m3">
+      <div class="milestone-header">
+        <span class="milestone-badge" style="background:rgba(0,255,157,0.12);border:1px solid rgba(0,255,157,0.3);color:var(--milestone3)">M3</span>
+        <div>
+          <div class="milestone-title">Playwright Config + MCP Setup</div>
+          <div class="milestone-desc">Configure Playwright with all reporters, and set up MCP browser control</div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(0,255,157,0.15);color:var(--milestone3)">1</span>
+          <span class="step-title">playwright.config.js — Full Configuration</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">config/playwright.config.js</span><span class="code-lang">js</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="kw">import</span> { defineConfig, devices } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+<span class="kw">import</span> <span class="str">'dotenv/config'</span>;
+
+<span class="kw">export default</span> <span class="fn">defineConfig</span>({
+  testDir: <span class="str">'./tests'</span>,
+  outputDir: <span class="str">'./reports/test-results'</span>,
+
+  <span class="cm">/* Run tests in parallel */</span>
+  fullyParallel: <span class="kw">false</span>,  <span class="cm">// SF tests are sequential by nature</span>
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? <span class="num">2</span> : <span class="num">0</span>,
+  workers: process.env.CI ? <span class="num">1</span> : <span class="num">1</span>,
+
+  <span class="cm">/* Global timeout */</span>
+  timeout: parseInt(process.env.TIMEOUT) || <span class="num">60000</span>,
+  expect: { timeout: <span class="num">15000</span> },
+
+  <span class="cm">/* Reporters */</span>
+  reporter: [
+    [<span class="str">'list'</span>],                          <span class="cm">// Console output</span>
+    [<span class="str">'html'</span>, {
+      outputFolder: <span class="str">'reports/playwright-report'</span>,
+      open: <span class="str">'never'</span>
+    }],
+    [<span class="str">'allure-playwright'</span>, {
+      detail: <span class="kw">true</span>,
+      outputFolder: <span class="str">'reports/allure-results'</span>,
+      suiteTitle: <span class="kw">false</span>,
+    }],
+    [<span class="str">'junit'</span>, {
+      outputFile: <span class="str">'reports/junit-results.xml'</span>  <span class="cm">// For CI systems</span>
+    }],
+  ],
+
+  use: {
+    baseURL: process.env.BASE_URL || process.env.SF_URL,
+    headless: process.env.HEADLESS !== <span class="str">'false'</span>,
+    slowMo: parseInt(process.env.SLOW_MO) || <span class="num">0</span>,
+
+    <span class="cm">/* Capture on failure */</span>
+    screenshot: <span class="str">'only-on-failure'</span>,
+    video: <span class="str">'retain-on-failure'</span>,
+    trace: <span class="str">'retain-on-failure'</span>,
+
+    <span class="cm">/* Browser settings */</span>
+    viewport: { width: <span class="num">1920</span>, height: <span class="num">1080</span> },
+    ignoreHTTPSErrors: <span class="kw">true</span>,
+
+    <span class="cm">/* Global navigation timeout */</span>
+    navigationTimeout: <span class="num">30000</span>,
+    actionTimeout: <span class="num">15000</span>,
+
+    <span class="cm">/* Custom SF test metadata */</span>
+    extraHTTPHeaders: {
+      <span class="str">'X-Framework'</span>: <span class="str">'sf-agentic'</span>
+    },
+  },
+
+  projects: [
+    {
+      name: <span class="str">'chromium'</span>,
+      use: {
+        ...devices[<span class="str">'Desktop Chrome'</span>],
+        channel: <span class="str">'chrome'</span>,
+      },
+    },
+  ],
+
+  <span class="cm">/* Global setup — SF login */</span>
+  globalSetup: <span class="str">'./utils/sf-helpers.js'</span>,
+});</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(0,255,157,0.15);color:var(--milestone3)">2</span>
+          <span class="step-title">MCP Config — Browser as AI Tools</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <p>The MCP config exposes the browser as tools that AI agents can call. The Playwright MCP server turns every browser action into an AI-callable tool.</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">config/mcp.config.json</span><span class="code-lang">json</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre>{
+  <span class="str">"mcpServers"</span>: {
+    <span class="str">"playwright"</span>: {
+      <span class="str">"command"</span>: <span class="str">"npx"</span>,
+      <span class="str">"args"</span>: [<span class="str">"@playwright/mcp"</span>],
+      <span class="str">"env"</span>: {
+        <span class="str">"PLAYWRIGHT_BROWSERS_PATH"</span>: <span class="str">"0"</span>
+      }
+    }
+  },
+  <span class="str">"agentSettings"</span>: {
+    <span class="str">"plannerAgent"</span>: {
+      <span class="str">"model"</span>: <span class="str">"claude-sonnet-4-20250514"</span>,
+      <span class="str">"maxTokens"</span>: <span class="num">8192</span>,
+      <span class="str">"systemPrompt"</span>: <span class="str">"You are a Playwright test planning agent. You explore Salesforce Lightning UIs, identify all interactive elements using semantic/aria/role locators, and produce detailed Markdown test plans."</span>
+    },
+    <span class="str">"generatorAgent"</span>: {
+      <span class="str">"model"</span>: <span class="str">"claude-sonnet-4-20250514"</span>,
+      <span class="str">"maxTokens"</span>: <span class="num">8192</span>,
+      <span class="str">"systemPrompt"</span>: <span class="str">"You are a Playwright test generation agent. You read Markdown test plans and produce clean, robust Playwright JS tests with proper assertions, screenshots, and allure metadata."</span>
+    },
+    <span class="str">"healerAgent"</span>: {
+      <span class="str">"model"</span>: <span class="str">"claude-sonnet-4-20250514"</span>,
+      <span class="str">"maxTokens"</span>: <span class="num">4096</span>,
+      <span class="str">"systemPrompt"</span>: <span class="str">"You are a test healer agent. Given a failing Playwright test and its error, you identify broken locators, suggest fixes using alternative semantic selectors, and rewrite the failing section."</span>
+    }
+  }
+}</pre>
+          </div>
+          <div class="info-box info-tip">
+            <span class="info-box-icon">💡</span>
+            <div>The <strong>@playwright/mcp</strong> package is the official Microsoft open-source MCP server. It gives AI agents access to: <code>browser_navigate</code>, <code>browser_click</code>, <code>browser_type</code>, <code>browser_snapshot</code>, <code>browser_screenshot</code>, and 20+ other browser tools — all callable via natural language through Claude.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(0,255,157,0.15);color:var(--milestone3)">3</span>
+          <span class="step-title">SF Helpers — Login & Global Setup</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">utils/sf-helpers.js</span><span class="code-lang">js</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="kw">import</span> { chromium } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+<span class="kw">import</span> <span class="kw">fs</span> <span class="kw">from</span> <span class="str">'fs'</span>;
+<span class="kw">import</span> <span class="str">'dotenv/config'</span>;
+
+<span class="cm">/**
+ * Global Setup: Login to Salesforce and save auth state.
+ * Playwright reuses this across all tests (no re-login).
+ */</span>
+<span class="kw">export default async function</span> <span class="fn">globalSetup</span>() {
+  <span class="kw">const</span> browser = <span class="kw">await</span> chromium.<span class="fn">launch</span>({ headless: <span class="kw">true</span> });
+  <span class="kw">const</span> page = <span class="kw">await</span> browser.<span class="fn">newPage</span>();
+
+  console.<span class="fn">log</span>(<span class="str">'🔐 Logging into Salesforce...'</span>);
+
+  <span class="kw">await</span> page.<span class="fn">goto</span>(<span class="str">`${process.env.SF_URL}/lightning/page/home`</span>);
+  <span class="kw">await</span> page.<span class="fn">fill</span>(<span class="str">'#username'</span>, process.env.SF_USERNAME);
+  <span class="kw">await</span> page.<span class="fn">fill</span>(<span class="str">'#password'</span>, process.env.SF_PASSWORD);
+  <span class="kw">await</span> page.<span class="fn">click</span>(<span class="str">'#Login'</span>);
+
+  <span class="cm">// Wait for Lightning to fully load</span>
+  <span class="kw">await</span> page.<span class="fn">waitForSelector</span>(<span class="str">'[data-id="AppNavigation"]'</span>, { timeout: <span class="num">30000</span> });
+
+  <span class="cm">// Save auth state — reused by all tests</span>
+  <span class="kw">await</span> page.context().<span class="fn">storageState</span>({ path: <span class="str">'./reports/.auth-state.json'</span> });
+  <span class="kw">await</span> browser.<span class="fn">close</span>();
+
+  console.<span class="fn">log</span>(<span class="str">'✅ Salesforce login successful. Auth state saved.'</span>);
+}
+
+<span class="cm">/** Helper: Wait for SF Lightning spinner to disappear */</span>
+<span class="kw">export async function</span> <span class="fn">waitForSFLoad</span>(page) {
+  <span class="kw">await</span> page.<span class="fn">waitForFunction</span>(() =>
+    !document.<span class="fn">querySelector</span>(<span class="str">'.forceListViewManagerSpinner'</span>) &&
+    !document.<span class="fn">querySelector</span>(<span class="str">'.slds-spinner'</span>)
+  , { timeout: <span class="num">15000</span> }).<span class="fn">catch</span>(() => {}); <span class="cm">// Non-fatal</span>
+}
+
+<span class="cm">/** Helper: Navigate to SF app via App Launcher */</span>
+<span class="kw">export async function</span> <span class="fn">navigateToApp</span>(page, appName) {
+  <span class="kw">await</span> page.<span class="fn">click</span>(<span class="str">'[title="App Launcher"]'</span>);
+  <span class="kw">await</span> page.<span class="fn">fill</span>(<span class="str">'[placeholder="Search apps and items..."]'</span>, appName);
+  <span class="kw">await</span> page.<span class="fn">click</span>(<span class="str">`text=${appName}`</span>);
+  <span class="kw">await</span> <span class="fn">waitForSFLoad</span>(page);
+}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== MILESTONE 4 ======================== -->
+    <section class="milestone" id="m4">
+      <div class="milestone-header">
+        <span class="milestone-badge" style="background:rgba(255,107,53,0.12);border:1px solid rgba(255,107,53,0.3);color:var(--milestone4)">M4</span>
+        <div>
+          <div class="milestone-title">Agent System — Orchestrator, Planner, Generator, Healer</div>
+          <div class="milestone-desc">The AI brain of the framework</div>
+        </div>
+      </div>
+
+      <div class="agent-grid">
+        <div class="agent-card">
+          <div class="agent-icon">🎯</div>
+          <div class="agent-name">Orchestrator Agent</div>
+          <div class="agent-desc">Reads the task.md, decides which agents to invoke, passes context between them, and coordinates the full flow.</div>
+          <span class="agent-tag" style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:var(--accent)">orchestrator.js</span>
+        </div>
+        <div class="agent-card">
+          <div class="agent-icon">🔍</div>
+          <div class="agent-name">Planner Agent</div>
+          <div class="agent-desc">Uses MCP browser tools to explore the live SF org. Screenshots, reads DOM, identifies locators, writes a detailed .md test plan.</div>
+          <span class="agent-tag" style="background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.3);color:var(--accent2)">planner-agent.js</span>
+        </div>
+        <div class="agent-card">
+          <div class="agent-icon">⚡</div>
+          <div class="agent-name">Generator Agent</div>
+          <div class="agent-desc">Reads the Planner's .md output and produces clean, ready-to-run Playwright .spec.js test files with full assertions and Allure metadata.</div>
+          <span class="agent-tag" style="background:rgba(0,255,157,0.1);border:1px solid rgba(0,255,157,0.3);color:var(--accent3)">generator-agent.js</span>
+        </div>
+        <div class="agent-card">
+          <div class="agent-icon">🩹</div>
+          <div class="agent-name">Healer Agent</div>
+          <div class="agent-desc">When tests fail, reads the error trace, re-explores SF to find updated locators, and patches the failing test automatically.</div>
+          <span class="agent-tag" style="background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:var(--warn)">healer-agent.js</span>
+        </div>
+      </div>
+
+      <div class="step open" style="margin-top:20px;">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,107,53,0.15);color:var(--milestone4)">1</span>
+          <span class="step-title">orchestrator.js — Master Coordinator</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">agents/orchestrator.js</span><span class="code-lang">js</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="kw">import</span> fs <span class="kw">from</span> <span class="str">'fs/promises'</span>;
+<span class="kw">import</span> path <span class="kw">from</span> <span class="str">'path'</span>;
+<span class="kw">import</span> { <span class="fn">PlannerAgent</span> } <span class="kw">from</span> <span class="str">'./planner-agent.js'</span>;
+<span class="kw">import</span> { <span class="fn">GeneratorAgent</span> } <span class="kw">from</span> <span class="str">'./generator-agent.js'</span>;
+<span class="kw">import</span> { <span class="fn">HealerAgent</span> } <span class="kw">from</span> <span class="str">'./healer-agent.js'</span>;
+<span class="kw">import</span> { <span class="fn">runTests</span>, <span class="fn">parseTestResults</span> } <span class="kw">from</span> <span class="str">'../utils/reporter-utils.js'</span>;
+
+<span class="kw">export class</span> <span class="obj">Orchestrator</span> {
+  <span class="kw">constructor</span>(taskFilePath) {
+    <span class="kw">this</span>.taskFile = taskFilePath;
+    <span class="kw">this</span>.planner = <span class="kw">new</span> <span class="fn">PlannerAgent</span>();
+    <span class="kw">this</span>.generator = <span class="kw">new</span> <span class="fn">GeneratorAgent</span>();
+    <span class="kw">this</span>.healer = <span class="kw">new</span> <span class="fn">HealerAgent</span>();
+    <span class="kw">this</span>.maxHealAttempts = <span class="num">3</span>;
+  }
+
+  <span class="kw">async</span> <span class="fn">run</span>() {
+    console.<span class="fn">log</span>(<span class="str">`\n🚀 Orchestrator: Starting pipeline for ${this.taskFile}\n`</span>);
+
+    <span class="cm">// STEP 1: Read task file</span>
+    <span class="kw">const</span> taskContent = <span class="kw">await</span> fs.<span class="fn">readFile</span>(<span class="kw">this</span>.taskFile, <span class="str">'utf8'</span>);
+    <span class="kw">const</span> taskName = <span class="fn">extractTaskName</span>(taskContent);
+
+    <span class="cm">// STEP 2: Planner explores SF and produces a plan</span>
+    console.<span class="fn">log</span>(<span class="str">'🔍 Step 1/4: Planner exploring Salesforce...'</span>);
+    <span class="kw">const</span> planFile = <span class="kw">await</span> <span class="kw">this</span>.planner.<span class="fn">plan</span>(taskContent, taskName);
+
+    <span class="cm">// STEP 3: Generator reads plan, writes .spec.js</span>
+    console.<span class="fn">log</span>(<span class="str">'⚡ Step 2/4: Generator writing Playwright tests...'</span>);
+    <span class="kw">const</span> specFile = <span class="kw">await</span> <span class="kw">this</span>.generator.<span class="fn">generate</span>(planFile, taskName);
+
+    <span class="cm">// STEP 4: Run tests</span>
+    console.<span class="fn">log</span>(<span class="str">'▶  Step 3/4: Running tests...'</span>);
+    <span class="kw">let</span> results = <span class="kw">await</span> <span class="fn">runTests</span>(specFile);
+
+    <span class="cm">// STEP 5: Heal if needed</span>
+    <span class="kw">let</span> healAttempt = <span class="num">0</span>;
+    <span class="kw">while</span> (results.failed > <span class="num">0</span> && healAttempt < <span class="kw">this</span>.maxHealAttempts) {
+      healAttempt++;
+      console.<span class="fn">log</span>(<span class="str">`🩹 Step 4/4: Healer fixing failures (attempt ${healAttempt})...`</span>);
+      <span class="kw">await</span> <span class="kw">this</span>.healer.<span class="fn">heal</span>(specFile, results.errors);
+      results = <span class="kw">await</span> <span class="fn">runTests</span>(specFile);
+    }
+
+    <span class="cm">// FINAL SUMMARY</span>
+    console.<span class="fn">log</span>(<span class="str">`\n✅ Pipeline Complete!`</span>);
+    console.<span class="fn">log</span>(<span class="str">`   Passed: ${results.passed} | Failed: ${results.failed}`</span>);
+    console.<span class="fn">log</span>(<span class="str">`   Spec:   ${specFile}`</span>);
+    console.<span class="fn">log</span>(<span class="str">`   Report: npm run report:allure\n`</span>);
+
+    <span class="kw">return</span> results;
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,107,53,0.15);color:var(--milestone4)">2</span>
+          <span class="step-title">planner-agent.js — MCP-Powered SF Explorer</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">agents/planner-agent.js</span><span class="code-lang">js</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="kw">import</span> Anthropic <span class="kw">from</span> <span class="str">'@anthropic-ai/sdk'</span>;
+<span class="kw">import</span> fs <span class="kw">from</span> <span class="str">'fs/promises'</span>;
+<span class="kw">import</span> path <span class="kw">from</span> <span class="str">'path'</span>;
+<span class="kw">import</span> <span class="str">'dotenv/config'</span>;
+
+<span class="kw">export class</span> <span class="obj">PlannerAgent</span> {
+  <span class="kw">constructor</span>() {
+    <span class="kw">this</span>.client = <span class="kw">new</span> Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  }
+
+  <span class="kw">async</span> <span class="fn">plan</span>(taskContent, taskName) {
+    <span class="cm">// Load memory files for context</span>
+    <span class="kw">const</span> memory = <span class="kw">await</span> fs.<span class="fn">readFile</span>(<span class="str">'./memory/sf-selectors.md'</span>, <span class="str">'utf8'</span>);
+    <span class="kw">const</span> frameworkCtx = <span class="kw">await</span> fs.<span class="fn">readFile</span>(<span class="str">'./memory/framework-memory.md'</span>, <span class="str">'utf8'</span>);
+
+    <span class="kw">const</span> prompt = `
+You are a Playwright test PLANNING agent for Salesforce Lightning.
+You have access to MCP browser tools to explore the live SF org.
+
+## Framework Memory
+${frameworkCtx}
+
+## Known SF Selectors Library
+${memory}
+
+## Task to Plan
+${taskContent}
+
+## Your Job
+1. Use browser tools to navigate to the relevant SF Lightning page
+2. Take screenshots and analyze the DOM
+3. Identify all form fields, buttons, toasts, and list views
+4. Write a DETAILED Markdown test plan with:
+   - Step-by-step actions
+   - Exact locators (prefer: role, aria-label, placeholder, text)
+   - Assertions to verify at each step
+   - Expected success/failure states
+   - Screenshot capture points
+
+Output ONLY the Markdown plan. Start with # Test Plan: [task name]
+`;
+
+    <span class="kw">const</span> response = <span class="kw">await</span> <span class="kw">this</span>.client.messages.<span class="fn">create</span>({
+      model: <span class="str">'claude-sonnet-4-20250514'</span>,
+      max_tokens: <span class="num">8192</span>,
+      messages: [{ role: <span class="str">'user'</span>, content: prompt }],
+    });
+
+    <span class="kw">const</span> plan = response.content[<span class="num">0</span>].text;
+    <span class="kw">const</span> planFile = <span class="str">`./specs/${taskName}-plan.md`</span>;
+    <span class="kw">await</span> fs.<span class="fn">writeFile</span>(planFile, plan, <span class="str">'utf8'</span>);
+
+    console.<span class="fn">log</span>(<span class="str">`   📄 Plan saved: ${planFile}`</span>);
+    <span class="kw">return</span> planFile;
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,107,53,0.15);color:var(--milestone4)">3</span>
+          <span class="step-title">generator-agent.js — Test Code Writer</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">agents/generator-agent.js</span><span class="code-lang">js</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="kw">import</span> Anthropic <span class="kw">from</span> <span class="str">'@anthropic-ai/sdk'</span>;
+<span class="kw">import</span> fs <span class="kw">from</span> <span class="str">'fs/promises'</span>;
+<span class="kw">import</span> <span class="str">'dotenv/config'</span>;
+
+<span class="kw">export class</span> <span class="obj">GeneratorAgent</span> {
+  <span class="kw">constructor</span>() {
+    <span class="kw">this</span>.client = <span class="kw">new</span> Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  }
+
+  <span class="kw">async</span> <span class="fn">generate</span>(planFile, taskName) {
+    <span class="kw">const</span> plan = <span class="kw">await</span> fs.<span class="fn">readFile</span>(planFile, <span class="str">'utf8'</span>);
+
+    <span class="kw">const</span> prompt = `
+You are a Playwright JS test GENERATOR for Salesforce Lightning.
+
+## Input Plan
+${plan}
+
+## Requirements — Generate tests that:
+1. Use Playwright's @playwright/test framework
+2. Import allure-js-commons for rich reporting
+3. Use ONLY semantic/accessible locators:
+   - page.getByRole('button', { name: 'New' })
+   - page.getByLabel('Opportunity Name')
+   - page.getByPlaceholder('Search...')
+   - page.getByText('Success') / page.locator('[aria-label="..."]')
+4. Include ALLURE annotations:
+   - allure.epic(), allure.feature(), allure.story()
+   - allure.step() for each major action
+   - allure.attachment() for screenshots
+5. Screenshot on every failure using test.info().attach()
+6. Proper beforeAll/afterAll hooks for SF login (use storageState)
+7. Detailed expect() assertions at every step
+8. Add waitForSFLoad() after navigation actions
+9. Add retry logic for flaky SF elements
+
+## Output
+Generate ONLY executable Playwright JS code. 
+No markdown, no explanations.
+File starts with: import { test, expect } from '@playwright/test';
+`;
+
+    <span class="kw">const</span> response = <span class="kw">await</span> <span class="kw">this</span>.client.messages.<span class="fn">create</span>({
+      model: <span class="str">'claude-sonnet-4-20250514'</span>,
+      max_tokens: <span class="num">8192</span>,
+      messages: [{ role: <span class="str">'user'</span>, content: prompt }],
+    });
+
+    <span class="kw">let</span> testCode = response.content[<span class="num">0</span>].text;
+    <span class="cm">// Strip markdown fences if present</span>
+    testCode = testCode.<span class="fn">replace</span>(/```javascript|```js|```/g, <span class="str">''</span>).<span class="fn">trim</span>();
+
+    <span class="kw">const</span> specFile = <span class="str">`./tests/${taskName}.spec.js`</span>;
+    <span class="kw">await</span> fs.<span class="fn">writeFile</span>(specFile, testCode, <span class="str">'utf8'</span>);
+    console.<span class="fn">log</span>(<span class="str">`   🧪 Test generated: ${specFile}`</span>);
+    <span class="kw">return</span> specFile;
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,107,53,0.15);color:var(--milestone4)">4</span>
+          <span class="step-title">healer-agent.js — Auto-Fix Failing Tests</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">agents/healer-agent.js</span><span class="code-lang">js</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="kw">import</span> Anthropic <span class="kw">from</span> <span class="str">'@anthropic-ai/sdk'</span>;
+<span class="kw">import</span> fs <span class="kw">from</span> <span class="str">'fs/promises'</span>;
+<span class="kw">import</span> <span class="str">'dotenv/config'</span>;
+
+<span class="kw">export class</span> <span class="obj">HealerAgent</span> {
+  <span class="kw">constructor</span>() {
+    <span class="kw">this</span>.client = <span class="kw">new</span> Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  }
+
+  <span class="kw">async</span> <span class="fn">heal</span>(specFile, errors) {
+    <span class="kw">const</span> testCode = <span class="kw">await</span> fs.<span class="fn">readFile</span>(specFile, <span class="str">'utf8'</span>);
+    <span class="kw">const</span> sfSelectors = <span class="kw">await</span> fs.<span class="fn">readFile</span>(<span class="str">'./memory/sf-selectors.md'</span>, <span class="str">'utf8'</span>);
+
+    <span class="kw">const</span> prompt = `
+You are a Playwright TEST HEALER agent.
+A test is failing. Your job is to fix the broken locators or logic.
+
+## Failing Test Code
+${testCode}
+
+## Error Messages
+${errors.<span class="fn">join</span>(<span class="str">'\n\n'</span>)}
+
+## Known SF Selectors Library
+${sfSelectors}
+
+## Rules for Healing
+1. ONLY fix what's broken — don't rewrite working parts
+2. Prefer more stable locators: aria-label > text > css
+3. Add .first() or .nth(0) if multiple elements match
+4. Add explicit waits before flaky elements: waitFor({ state: 'visible' })
+5. For toast messages: waitForSelector('.toastMessage') then getText
+6. For dropdowns: use selectOption() or click + getByRole('option')
+7. Comment each fix with: // HEALED: reason
+
+Return ONLY the fixed test code. No markdown fences.
+`;
+
+    <span class="kw">const</span> response = <span class="kw">await</span> <span class="kw">this</span>.client.messages.<span class="fn">create</span>({
+      model: <span class="str">'claude-sonnet-4-20250514'</span>,
+      max_tokens: <span class="num">8192</span>,
+      messages: [{ role: <span class="str">'user'</span>, content: prompt }],
+    });
+
+    <span class="kw">let</span> healed = response.content[<span class="num">0</span>].text.<span class="fn">replace</span>(/```(js|javascript)?/g, <span class="str">''</span>).<span class="fn">trim</span>();
+    <span class="kw">await</span> fs.<span class="fn">writeFile</span>(specFile, healed, <span class="str">'utf8'</span>);
+    console.<span class="fn">log</span>(<span class="str">`   🩹 Test healed and saved: ${specFile}`</span>);
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== MILESTONE 5 ======================== -->
+    <section class="milestone" id="m5">
+      <div class="milestone-header">
+        <span class="milestone-badge" style="background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.3);color:var(--milestone5)">M5</span>
+        <div>
+          <div class="milestone-title">Task Files + Agent Memory</div>
+          <div class="milestone-desc">How to write tasks and maintain persistent memory for agents</div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,215,0,0.15);color:var(--milestone5)">1</span>
+          <span class="step-title">Lead Creation Task File (Complete Example)</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">tasks/lead-creation.md</span><span class="code-lang">markdown</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cm"># Task: Automate Salesforce Lead Creation Flow</span>
+
+## Metadata
+- **Feature**: Lead Management
+- **Priority**: P1
+- **Author**: Automation Team
+- **Output Spec**: tests/lead-creation.spec.js
+
+## Objective
+Automate the end-to-end Lead creation flow in Salesforce Lightning.
+Create a new Lead record and verify it appears in the Lead list view.
+
+## Preconditions
+- Logged into Salesforce Lightning (auth state already saved)
+- Sales app is accessible
+- Lead tab is visible in navigation
+
+## Steps to Automate
+
+### Step 1: Navigate to Leads
+- Go to Salesforce Lightning → Sales app
+- Click "Leads" in the navigation bar
+- Wait for the Leads list view to load
+
+### Step 2: Create New Lead
+- Click the "New" button
+- Wait for the Lead creation modal/dialog to appear
+
+### Step 3: Fill Lead Form
+| Field          | Value                                    |
+|----------------|------------------------------------------|
+| First Name     | Agentic                                  |
+| Last Name      | Test-[timestamp]                         |
+| Company        | SF Agentic Framework Inc.                |
+| Lead Source    | Web                                      |
+| Email          | agentic.test@sf-framework.com            |
+| Phone          | +91-9876543210                           |
+| Lead Status    | Open - Not Contacted                     |
+
+### Step 4: Save & Verify
+- Click "Save" button
+- Verify success toast: "Lead was created"
+- Verify the new Lead record page opens
+- Verify Lead Name appears in header
+
+### Step 5: Verify in List View
+- Navigate back to Leads list
+- Search for "Agentic Test" in the search box
+- Verify the record appears in the list
+
+## Assertions Required
+1. ✅ Toast message contains "Lead" and "created"
+2. ✅ Record detail page title matches saved Lead name
+3. ✅ Lead appears in list view search results
+4. ✅ All filled fields are saved correctly on detail page
+
+## Acceptance Criteria
+- Test must work on any SF org (no hardcoded IDs)
+- Must use only role/label/text/aria locators
+- Must capture screenshot on every failure
+- Must include Allure annotations (epic: CRM, feature: Leads)
+
+## Notes
+- SF Lightning may show a spinner after clicking New — wait for it
+- Toast messages disappear after ~3s — assert immediately after save
+- List view may need "Recently Viewed" changed to "All Leads"</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,215,0,0.15);color:var(--milestone5)">2</span>
+          <span class="step-title">framework-memory.md — Persistent Agent Context</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">memory/framework-memory.md</span><span class="code-lang">markdown</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cm"># Framework Memory — SF Agentic Automation</span>
+_Updated by agents automatically. Do not delete._
+
+## Framework Rules (Always Follow)
+1. Use ONLY semantic locators — never CSS classes or XPath with IDs
+2. Always call waitForSFLoad() after navigating or clicking
+3. Salesforce Lightning spinners must disappear before interacting
+4. Toast messages auto-dismiss — assert within 3 seconds of action
+5. All tests must be reusable across any SF org (no org-specific IDs)
+6. Auth state is stored in ./reports/.auth-state.json
+
+## Salesforce Lightning Patterns
+
+### Modal/Dialog Handling
+- New record modal: role=dialog
+- Close: getByRole('button', { name: 'Cancel' })
+- Save: getByRole('button', { name: 'Save' })
+
+### Toast Message Pattern
+```javascript
+await expect(page.locator('.toastMessage')).toBeVisible();
+await expect(page.locator('.toastMessage')).toContainText('was created');
+```
+
+### Navigation Pattern
+```javascript
+await page.getByRole('link', { name: 'Leads' }).click();
+await waitForSFLoad(page);
+```
+
+### Dropdown / Picklist Pattern
+```javascript
+await page.getByLabel('Lead Status').click();
+await page.getByRole('option', { name: 'Open - Not Contacted' }).click();
+```
+
+## Known Agent Outputs
+| Task File | Plan File | Spec File | Last Run |
+|-----------|-----------|-----------|----------|
+| tasks/lead-creation.md | specs/lead-creation-plan.md | tests/lead-creation.spec.js | - |
+
+## Lessons Learned
+- SF custom components sometimes need force click — use click({ force: true })
+- List views default to "Recently Viewed" — switch to "All [Object]" first
+- Inline edit requires double-click on field value</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,215,0,0.15);color:var(--milestone5)">3</span>
+          <span class="step-title">sf-selectors.md — Selector Library for Agents</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">memory/sf-selectors.md</span><span class="code-lang">markdown</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre"><span class="cm"># Salesforce Lightning Selector Library</span>
+
+## Global / Navigation
+| Element            | Locator |
+|--------------------|---------|
+| App Launcher       | [title="App Launcher"] |
+| Nav Tab (any)      | getByRole('link', { name: 'TAB_NAME' }) |
+| Search Box         | getByPlaceholder('Search...') |
+| New Button         | getByRole('button', { name: 'New' }) |
+| Save Button        | getByRole('button', { name: 'Save' }) |
+| Cancel Button      | getByRole('button', { name: 'Cancel' }) |
+| Delete Button      | getByRole('button', { name: 'Delete' }) |
+| Edit Button        | getByRole('button', { name: 'Edit' }) |
+| Toast Message      | .toastMessage |
+| Success Toast      | .slds-notify--toast .toastMessage |
+| Loading Spinner    | .forceListViewManagerSpinner |
+| Modal Dialog       | getByRole('dialog') |
+
+## Lead Form Fields
+| Field          | Locator |
+|----------------|---------|
+| First Name     | getByLabel('First Name') |
+| Last Name      | getByLabel('Last Name') |
+| Company        | getByLabel('Company') |
+| Email          | getByLabel('Email') |
+| Phone          | getByLabel('Phone') |
+| Lead Source    | getByLabel('Lead Source') |
+| Lead Status    | getByLabel('Status') |
+
+## Opportunity Form Fields
+| Field              | Locator |
+|--------------------|---------|
+| Opportunity Name   | getByLabel('Opportunity Name') |
+| Account Name       | getByLabel('Account Name') |
+| Close Date         | getByLabel('Close Date') |
+| Stage              | getByLabel('Stage') |
+| Amount             | getByLabel('Amount') |
+
+## List View
+| Element            | Locator |
+|--------------------|---------|
+| List View Picker   | getByRole('button', { name: 'Select a List View' }) |
+| All Leads View     | getByRole('option', { name: 'All Leads' }) |
+| Row by Name        | getByRole('link', { name: 'RECORD_NAME' }) |</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== MILESTONE 6 ======================== -->
+    <section class="milestone" id="m6">
+      <div class="milestone-header">
+        <span class="milestone-badge" style="background:rgba(255,77,158,0.12);border:1px solid rgba(255,77,158,0.3);color:var(--milestone6)">M6</span>
+        <div>
+          <div class="milestone-title">Allure Reports + Screenshots</div>
+          <div class="milestone-desc">Rich HTML reports with test steps, screenshots, and Salesforce context</div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,77,158,0.15);color:var(--milestone6)">1</span>
+          <span class="step-title">reporter-utils.js — Screenshots + Allure</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">utils/reporter-utils.js</span><span class="code-lang">js</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="kw">import</span> { test } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+<span class="kw">import</span> * <span class="kw">as</span> allure <span class="kw">from</span> <span class="str">'allure-js-commons'</span>;
+<span class="kw">import</span> { <span class="fn">execSync</span> } <span class="kw">from</span> <span class="str">'child_process'</span>;
+
+<span class="cm">/**
+ * Attach a screenshot to test and Allure report
+ */</span>
+<span class="kw">export async function</span> <span class="fn">captureScreenshot</span>(page, name = <span class="str">'screenshot'</span>) {
+  <span class="kw">const</span> screenshot = <span class="kw">await</span> page.<span class="fn">screenshot</span>({ fullPage: <span class="kw">true</span> });
+  <span class="cm">// Attach to Playwright HTML report</span>
+  <span class="kw">await</span> test.<span class="fn">info</span>().<span class="fn">attach</span>(name, {
+    body: screenshot,
+    contentType: <span class="str">'image/png'</span>,
+  });
+  <span class="cm">// Attach to Allure report</span>
+  <span class="kw">await</span> allure.<span class="fn">attachment</span>(name, screenshot, <span class="str">'image/png'</span>);
+}
+
+<span class="cm">/**
+ * Wrap actions with Allure step tracking
+ */</span>
+<span class="kw">export async function</span> <span class="fn">step</span>(name, fn) {
+  <span class="kw">return</span> allure.<span class="fn">step</span>(name, fn);
+}
+
+<span class="cm">/**
+ * Run Playwright tests and parse results
+ */</span>
+<span class="kw">export async function</span> <span class="fn">runTests</span>(specFile) {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> cmd = <span class="str">`npx playwright test ${specFile} --reporter=json`</span>;
+    <span class="kw">const</span> output = <span class="fn">execSync</span>(cmd, { encoding: <span class="str">'utf8'</span> });
+    <span class="kw">const</span> results = JSON.<span class="fn">parse</span>(output);
+    <span class="kw">return</span> {
+      passed: results.stats.expected,
+      failed: results.stats.unexpected,
+      errors: <span class="fn">extractErrors</span>(results),
+    };
+  } <span class="kw">catch</span> (e) {
+    <span class="kw">return</span> { passed: <span class="num">0</span>, failed: <span class="num">1</span>, errors: [e.message] };
+  }
+}
+
+<span class="kw">function</span> <span class="fn">extractErrors</span>(results) {
+  <span class="kw">return</span> results.suites
+    ?.<span class="fn">flatMap</span>(s => s.specs)
+    ?.<span class="fn">flatMap</span>(spec => spec.tests)
+    ?.<span class="fn">filter</span>(t => t.status === <span class="str">'unexpected'</span>)
+    ?.<span class="fn">map</span>(t => t.results[<span class="num">0</span>]?.error?.message || <span class="str">'Unknown error'</span>) || [];
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,77,158,0.15);color:var(--milestone6)">2</span>
+          <span class="step-title">Example Generated Test (with Allure + Screenshots)</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <p>This is an example of what the Generator Agent outputs for Lead creation:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">tests/lead-creation.spec.js (Auto-Generated)</span><span class="code-lang">js</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="kw">import</span> { test, expect } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+<span class="kw">import</span> * <span class="kw">as</span> allure <span class="kw">from</span> <span class="str">'allure-js-commons'</span>;
+<span class="kw">import</span> { <span class="fn">captureScreenshot</span>, <span class="fn">step</span> } <span class="kw">from</span> <span class="str">'../utils/reporter-utils.js'</span>;
+<span class="kw">import</span> { <span class="fn">waitForSFLoad</span> } <span class="kw">from</span> <span class="str">'../utils/sf-helpers.js'</span>;
+
+test.<span class="fn">use</span>({ storageState: <span class="str">'./reports/.auth-state.json'</span> });
+
+test.<span class="fn">describe</span>(<span class="str">'Lead Creation Flow'</span>, () => {
+
+  test.<span class="fn">beforeEach</span>(<span class="kw">async</span> ({ page }) => {
+    <span class="kw">await</span> allure.<span class="fn">epic</span>(<span class="str">'CRM'</span>);
+    <span class="kw">await</span> allure.<span class="fn">feature</span>(<span class="str">'Lead Management'</span>);
+    <span class="kw">await</span> allure.<span class="fn">story</span>(<span class="str">'Create New Lead'</span>);
+    <span class="kw">await</span> allure.<span class="fn">severity</span>(<span class="str">'critical'</span>);
+  });
+
+  test(<span class="str">'should create a new Lead and verify in list view'</span>, <span class="kw">async</span> ({ page }) => {
+    <span class="kw">const</span> timestamp = Date.<span class="fn">now</span>();
+    <span class="kw">const</span> leadName = <span class="str">`Agentic Test-${timestamp}`</span>;
+
+    <span class="cm">// STEP 1: Navigate to Leads</span>
+    <span class="kw">await</span> <span class="fn">step</span>(<span class="str">'Navigate to Leads tab'</span>, <span class="kw">async</span> () => {
+      <span class="kw">await</span> page.<span class="fn">goto</span>(process.env.SF_URL);
+      <span class="kw">await</span> page.<span class="fn">getByRole</span>(<span class="str">'link'</span>, { name: <span class="str">'Leads'</span> }).<span class="fn">click</span>();
+      <span class="kw">await</span> <span class="fn">waitForSFLoad</span>(page);
+      <span class="kw">await</span> <span class="fn">captureScreenshot</span>(page, <span class="str">'leads-list-view'</span>);
+    });
+
+    <span class="cm">// STEP 2: Click New</span>
+    <span class="kw">await</span> <span class="fn">step</span>(<span class="str">'Click New button'</span>, <span class="kw">async</span> () => {
+      <span class="kw">await</span> page.<span class="fn">getByRole</span>(<span class="str">'button'</span>, { name: <span class="str">'New'</span> }).<span class="fn">click</span>();
+      <span class="kw">await</span> page.<span class="fn">getByRole</span>(<span class="str">'dialog'</span>).<span class="fn">waitFor</span>({ state: <span class="str">'visible'</span> });
+    });
+
+    <span class="cm">// STEP 3: Fill the form</span>
+    <span class="kw">await</span> <span class="fn">step</span>(<span class="str">'Fill Lead creation form'</span>, <span class="kw">async</span> () => {
+      <span class="kw">await</span> page.<span class="fn">getByLabel</span>(<span class="str">'First Name'</span>).<span class="fn">fill</span>(<span class="str">'Agentic'</span>);
+      <span class="kw">await</span> page.<span class="fn">getByLabel</span>(<span class="str">'Last Name'</span>).<span class="fn">fill</span>(<span class="str">`Test-${timestamp}`</span>);
+      <span class="kw">await</span> page.<span class="fn">getByLabel</span>(<span class="str">'Company'</span>).<span class="fn">fill</span>(<span class="str">'SF Agentic Framework Inc.'</span>);
+      <span class="kw">await</span> page.<span class="fn">getByLabel</span>(<span class="str">'Email'</span>).<span class="fn">fill</span>(<span class="str">'agentic.test@sf-framework.com'</span>);
+      <span class="kw">await</span> page.<span class="fn">getByLabel</span>(<span class="str">'Phone'</span>).<span class="fn">fill</span>(<span class="str">'+91-9876543210'</span>);
+      <span class="kw">await</span> <span class="fn">captureScreenshot</span>(page, <span class="str">'lead-form-filled'</span>);
+    });
+
+    <span class="cm">// STEP 4: Save</span>
+    <span class="kw">await</span> <span class="fn">step</span>(<span class="str">'Save the Lead record'</span>, <span class="kw">async</span> () => {
+      <span class="kw">await</span> page.<span class="fn">getByRole</span>(<span class="str">'button'</span>, { name: <span class="str">'Save'</span> }).<span class="fn">click</span>();
+
+      <span class="cm">// Assert success toast</span>
+      <span class="kw">const</span> toast = page.<span class="fn">locator</span>(<span class="str">'.toastMessage'</span>);
+      <span class="kw">await</span> <span class="fn">expect</span>(toast).<span class="fn">toBeVisible</span>({ timeout: <span class="num">10000</span> });
+      <span class="kw">await</span> <span class="fn">expect</span>(toast).<span class="fn">toContainText</span>(<span class="str">'Lead'</span>);
+      <span class="kw">await</span> <span class="fn">captureScreenshot</span>(page, <span class="str">'lead-saved-toast'</span>);
+    });
+
+    <span class="cm">// STEP 5: Verify detail page</span>
+    <span class="kw">await</span> <span class="fn">step</span>(<span class="str">'Verify Lead detail page'</span>, <span class="kw">async</span> () => {
+      <span class="kw">await</span> <span class="fn">waitForSFLoad</span>(page);
+      <span class="kw">await</span> <span class="fn">expect</span>(page.<span class="fn">getByRole</span>(<span class="str">'heading'</span>, { name: leadName })).<span class="fn">toBeVisible</span>();
+      <span class="kw">await</span> <span class="fn">captureScreenshot</span>(page, <span class="str">'lead-detail-page'</span>);
+    });
+
+    <span class="cm">// STEP 6: Verify in list view</span>
+    <span class="kw">await</span> <span class="fn">step</span>(<span class="str">'Verify Lead in list view'</span>, <span class="kw">async</span> () => {
+      <span class="kw">await</span> page.<span class="fn">getByRole</span>(<span class="str">'link'</span>, { name: <span class="str">'Leads'</span> }).<span class="fn">click</span>();
+      <span class="kw">await</span> <span class="fn">waitForSFLoad</span>(page);
+      <span class="kw">await</span> <span class="fn">expect</span>(page.<span class="fn">getByRole</span>(<span class="str">'link'</span>, { name: leadName })).<span class="fn">toBeVisible</span>();
+      <span class="kw">await</span> <span class="fn">captureScreenshot</span>(page, <span class="str">'lead-in-list-view'</span>);
+    });
+  });
+});</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(255,77,158,0.15);color:var(--milestone6)">3</span>
+          <span class="step-title">Generating & Viewing Allure Report</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">Terminal</span><span class="code-lang">bash</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre"><span class="cm"># After running tests, generate & open Allure report</span>
+npm run report:allure
+
+<span class="cm"># Or step by step:</span>
+allure generate reports/allure-results -o reports/allure-report --clean
+allure open reports/allure-report
+
+<span class="cm"># View Playwright's built-in HTML report</span>
+npm run report:playwright</pre>
+          </div>
+          <div class="info-box info-success">
+            <span class="info-box-icon">📊</span>
+            <div>Allure report shows: test timeline, epic/feature/story hierarchy, test steps, attached screenshots at each step, failure traces, environment info, and trend graphs across runs.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== MILESTONE 7 ======================== -->
+    <section class="milestone" id="m7">
+      <div class="milestone-header">
+        <span class="milestone-badge" style="background:rgba(77,255,180,0.12);border:1px solid rgba(77,255,180,0.3);color:var(--milestone7)">M7</span>
+        <div>
+          <div class="milestone-title">CI/CD Pipeline + Running the Framework</div>
+          <div class="milestone-desc">GitHub Actions, run scripts, and the final execution commands</div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(77,255,180,0.15);color:var(--milestone7)">1</span>
+          <span class="step-title">GitHub Actions CI/CD Pipeline</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">.github/workflows/ci.yml</span><span class="code-lang">yaml</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre">name: SF Agentic Automation Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'   # Nightly run at 2 AM
+  workflow_dispatch:       # Manual trigger
+    inputs:
+      task:
+        description: 'Task file to run (e.g. tasks/lead-creation.md)'
+        required: false
+        default: ''
+
+jobs:
+  agentic-tests:
+    name: Run Agentic SF Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run Agentic Pipeline
+        env:
+          SF_URL: ${{ secrets.SF_URL }}
+          SF_USERNAME: ${{ secrets.SF_USERNAME }}
+          SF_PASSWORD: ${{ secrets.SF_PASSWORD }}
+          SF_SECURITY_TOKEN: ${{ secrets.SF_SECURITY_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          HEADLESS: 'true'
+          CI: 'true'
+        run: |
+          if [ -n "${{ github.event.inputs.task }}" ]; then
+            node scripts/run-agent.js --task ${{ github.event.inputs.task }}
+          else
+            npm run test:ci
+          fi
+
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          npm install -g allure-commandline
+          allure generate reports/allure-results -o reports/allure-report --clean
+
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-${{ github.run_id }}
+          path: reports/allure-report
+          retention-days: 30
+
+      - name: Upload Test Results (JUnit for GitHub UI)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: |
+            reports/playwright-report
+            reports/junit-results.xml
+          retention-days: 14
+
+      - name: Publish Test Results
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Playwright Results
+          path: reports/junit-results.xml
+          reporter: java-junit</pre>
+          </div>
+          <div class="info-box info-warn">
+            <span class="info-box-icon">🔒</span>
+            <div>Add all 5 secrets in GitHub → Settings → Secrets: <code>SF_URL</code>, <code>SF_USERNAME</code>, <code>SF_PASSWORD</code>, <code>SF_SECURITY_TOKEN</code>, <code>ANTHROPIC_API_KEY</code></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(77,255,180,0.15);color:var(--milestone7)">2</span>
+          <span class="step-title">scripts/run-agent.js — Main Entry Point</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">scripts/run-agent.js</span><span class="code-lang">js</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre><span class="cm">#!/usr/bin/env node</span>
+<span class="kw">import</span> { <span class="obj">Orchestrator</span> } <span class="kw">from</span> <span class="str">'../agents/orchestrator.js'</span>;
+<span class="kw">import</span> <span class="str">'dotenv/config'</span>;
+
+<span class="cm">// Parse --task argument</span>
+<span class="kw">const</span> args = process.argv.<span class="fn">slice</span>(<span class="num">2</span>);
+<span class="kw">const</span> taskIdx = args.<span class="fn">indexOf</span>(<span class="str">'--task'</span>);
+<span class="kw">const</span> taskFile = taskIdx !== <span class="num">-1</span>
+  ? args[taskIdx + <span class="num">1</span>]
+  : <span class="str">'tasks/lead-creation.md'</span>;  <span class="cm">// Default task</span>
+
+console.<span class="fn">log</span>(<span class="str">`
+╔══════════════════════════════════════════╗
+║   SF Agentic Automation Framework        ║
+║   Powered by Claude + Playwright MCP     ║
+╚══════════════════════════════════════════╝
+
+Task: ${taskFile}
+`</span>);
+
+<span class="kw">const</span> orchestrator = <span class="kw">new</span> <span class="obj">Orchestrator</span>(taskFile);
+orchestrator.<span class="fn">run</span>()
+  .<span class="fn">then</span>(results => {
+    process.<span class="fn">exit</span>(results.failed > <span class="num">0</span> ? <span class="num">1</span> : <span class="num">0</span>);
+  })
+  .<span class="fn">catch</span>(err => {
+    console.<span class="fn">error</span>(<span class="str">'❌ Fatal error:'</span>, err);
+    process.<span class="fn">exit</span>(<span class="num">1</span>);
+  });</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(77,255,180,0.15);color:var(--milestone7)">3</span>
+          <span class="step-title">🚀 How to Run — Complete Command Reference</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">All Run Commands</span><span class="code-lang">bash</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre"><span class="cm">## ── INITIAL SETUP (run once) ──────────────────────────────</span>
+cp .env.example .env           <span class="cm"># Fill in your SF creds</span>
+npm run setup                  <span class="cm"># Creates folders, verifies deps</span>
+
+
+<span class="cm">## ── AGENTIC MODE (AI writes AND runs tests) ──────────────</span>
+
+<span class="cm"># Run default task (lead-creation.md)</span>
+npm run agent:run
+
+<span class="cm"># Run specific task</span>
+npm run agent:lead
+npm run agent:opportunity
+
+<span class="cm"># Custom task file</span>
+node scripts/run-agent.js --task tasks/your-task.md
+
+
+<span class="cm">## ── DIRECT TEST EXECUTION ────────────────────────────────</span>
+
+<span class="cm"># Run all tests (headless)</span>
+npm test
+
+<span class="cm"># Run with browser visible</span>
+npm run test:headed
+
+<span class="cm"># Debug mode (step through)</span>
+npm run test:debug
+
+<span class="cm"># Playwright Test UI (interactive)</span>
+npm run test:ui
+
+<span class="cm"># Run specific spec file</span>
+npx playwright test tests/lead-creation.spec.js
+
+<span class="cm"># Run with visible traces</span>
+npx playwright test --trace on
+
+
+<span class="cm">## ── REPORTS ──────────────────────────────────────────────</span>
+
+<span class="cm"># Open Allure Report (rich HTML)</span>
+npm run report:allure
+
+<span class="cm"># Open Playwright HTML Report</span>
+npm run report:playwright
+
+
+<span class="cm">## ── CI PIPELINE ──────────────────────────────────────────</span>
+
+<span class="cm"># Simulate CI locally</span>
+npm run test:ci
+
+<span class="cm"># Full pipeline: agent + test + report</span>
+npm run pipeline</pre>
+          </div>
+          <div class="info-box info-success">
+            <span class="info-box-icon">🎯</span>
+            <div><strong>The Magic Flow:</strong> You create a <code>task.md</code> → run <code>npm run agent:run</code> → AI explores your Salesforce, writes the test, runs it, heals it if broken, and generates a full Allure report. No manual test code needed!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-header" onclick="toggle(this)">
+          <span class="step-num" style="background:rgba(77,255,180,0.15);color:var(--milestone7)">4</span>
+          <span class="step-title">.gitignore — Keep Credentials Safe</span>
+          <span class="step-chevron">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block">
+            <div class="code-header"><span class="code-file">.gitignore</span><span class="code-lang">gitignore</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+            <pre">node_modules/
+.env
+reports/.auth-state.json
+reports/allure-results/
+reports/allure-report/
+reports/playwright-report/
+reports/test-results/
+screenshots/
+test-results/
+playwright-report/
+*.spec.js.tmp</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+function toggle(header) {
+  const step = header.parentElement;
+  step.classList.toggle('open');
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    setTimeout(() => btn.textContent = 'copy', 2000);
+  });
+}
+
+// Sidebar active state on scroll
+const sections = document.querySelectorAll('.milestone');
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === `#${id}`);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
