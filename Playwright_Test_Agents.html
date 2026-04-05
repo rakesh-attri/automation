@@ -15,7 +15,7 @@
   --text: #e4e4e7; --muted: #71717a; --dim: #52525b;
   --code-bg: #0d0d10;
   --m1: #6366f1; --m2: #06b6d4; --m3: #22c55e;
-  --m4: #f59e0b; --m5: #ec4899; --m6: #8b5cf6; --m7: #f97316; --m8: #10b981;
+  --m4: #f59e0b; --m5: #ec4899; --m6: #8b5cf6; --m7: #f97316; --m8: #10b981; --m9: #e11d48; --m10: #0ea5e9;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:var(--bg); color:var(--text); font-family:'Outfit',sans-serif; line-height:1.6; overflow-x:hidden; }
@@ -165,17 +165,17 @@ hr { border:none; border-top:1px solid var(--border); margin:18px 0; }
   <div class="hero-inner">
     <div class="tag-row">
       <span class="tag tag-vsc"><span class="tag-dot"></span>VS Code + GitHub Copilot</span>
-      <span class="tag tag-pw">Playwright Test Agents v1.56+</span>
+      <span class="tag tag-pw">Playwright Test Agents v1.59+</span>
       <span class="tag tag-agent">Official Agent Loop</span>
     </div>
     <h1>SF Agentic Framework<br/>with Official Playwright Agents</h1>
     <p class="subtitle">Complete project setup using <code style="font-size:12px;background:rgba(255,255,255,.08);padding:2px 8px;border-radius:4px;color:#818cf8">npx playwright init-agents --loop=vscode</code> — the official Microsoft Playwright Test Agents wired into VS Code + GitHub Copilot for Salesforce automation.</p>
     <div class="pills">
-      <span class="pill p1">Playwright v1.56+</span>
+      <span class="pill p1">Playwright v1.59+</span>
       <span class="pill p1">VS Code v1.105+</span>
       <span class="pill p1">GitHub Copilot</span>
       <span class="pill p2">MCP Browser Tools</span>
-      <span class="pill p2">chatmode.md agents</span>
+      <span class="pill p2">agent.md agents</span>
       <span class="pill p3">Planner → Generator → Healer</span>
       <span class="pill p3">Allure Reports</span>
       <span class="pill p4">CI/CD GitHub Actions</span>
@@ -195,6 +195,8 @@ hr { border:none; border-top:1px solid var(--border); margin:18px 0; }
     <a class="nav-item" href="#m6"><span class="nav-num" style="background:rgba(139,92,246,.12);color:var(--m6)">6</span>Config + Reports</a>
     <a class="nav-item" href="#m7"><span class="nav-num" style="background:rgba(249,115,22,.12);color:var(--m7)">7</span>Running Agents</a>
     <a class="nav-item" href="#m8"><span class="nav-num" style="background:rgba(16,185,129,.12);color:var(--m8)">8</span>CI/CD Pipeline</a>
+    <a class="nav-item" href="#m9"><span class="nav-num" style="background:rgba(225,29,72,.12);color:var(--m9)">9</span>Jenkins</a>
+    <a class="nav-item" href="#m10"><span class="nav-num" style="background:rgba(14,165,233,.12);color:var(--m10)">10</span>API Testing</a>
   </aside>
 
   <main class="main">
@@ -211,6 +213,8 @@ hr { border:none; border-top:1px solid var(--border); margin:18px 0; }
         <a class="tp" href="#m6" style="background:rgba(139,92,246,.10);border:1px solid rgba(139,92,246,.3);color:var(--m6)">M6: Config + Reports</a>
         <a class="tp" href="#m7" style="background:rgba(249,115,22,.10);border:1px solid rgba(249,115,22,.3);color:var(--m7)">M7: Running</a>
         <a class="tp" href="#m8" style="background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.3);color:var(--m8)">M8: CI/CD</a>
+        <a class="tp" href="#m9" style="background:rgba(225,29,72,.10);border:1px solid rgba(225,29,72,.3);color:var(--m9)">M9: Jenkins</a>
+        <a class="tp" href="#m10" style="background:rgba(14,165,233,.10);border:1px solid rgba(14,165,233,.3);color:var(--m10)">M10: API Testing</a>
       </div>
     </div>
 
@@ -222,25 +226,25 @@ hr { border:none; border-top:1px solid var(--border); margin:18px 0; }
         <span class="step-chev">▶</span>
       </div>
       <div class="step-body">
-        <p>The <code>npx playwright init-agents --loop=vscode</code> command generates <strong>three pre-built agent prompt files</strong> inside <code>.github/chatmodes/</code>. GitHub Copilot reads these as "chat modes" — each one tells Copilot exactly how to use Playwright's MCP browser tools to explore, write, and fix tests.</p>
+        <p>The <code>npx playwright init-agents --loop=vscode</code> command generates <strong>three pre-built agent files</strong> inside <code>.github/agents/</code>. GitHub Copilot reads these as custom agents — each one tells Copilot exactly how to use Playwright's MCP browser tools to explore, write, and fix tests.</p>
         <div class="agent-grid">
           <div class="agent-card">
             <div class="agent-icon">🔍</div>
             <div class="agent-name">Planner Agent</div>
             <div class="agent-desc">Reads your task.md. Opens a real browser via MCP. Explores your live Salesforce org. Writes a detailed Markdown test plan.</div>
-            <div class="agent-file" style="background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.3);color:#818cf8">🎭 planner.chatmode.md</div>
+            <div class="agent-file" style="background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.3);color:#818cf8">🎭 planner.agent.md</div>
           </div>
           <div class="agent-card">
             <div class="agent-icon">⚡</div>
             <div class="agent-name">Generator Agent</div>
             <div class="agent-desc">Reads the Planner's .md plan. Produces clean, executable Playwright .spec.js files with assertions and Allure annotations.</div>
-            <div class="agent-file" style="background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);color:#22d3ee">🎭 generator.chatmode.md</div>
+            <div class="agent-file" style="background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);color:#22d3ee">🎭 generator.agent.md</div>
           </div>
           <div class="agent-card">
             <div class="agent-icon">🩹</div>
             <div class="agent-name">Healer Agent</div>
             <div class="agent-desc">Runs your test suite. When tests fail, it re-explores Salesforce, identifies broken locators and automatically patches the spec.</div>
-            <div class="agent-file" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#4ade80">🎭 healer.chatmode.md</div>
+            <div class="agent-file" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#4ade80">🎭 healer.agent.md</div>
           </div>
         </div>
         <div class="flow" style="margin-top:16px">
@@ -296,7 +300,7 @@ GitHub.copilot                <span class="cm"># GitHub Copilot (subscription re
 GitHub.copilot-chat           <span class="cm"># Copilot Chat for agent mode</span>
 dbaeumer.vscode-eslint        <span class="cm"># ESLint</span>
 yskkin.allure-playwright      <span class="cm"># Allure viewer</span></pre></div>
-          <div class="ib ib-tip"><span class="ib-icon">💡</span><div>After installing Copilot Chat: <strong>Command Palette → "Chat: Configure Tools"</strong> → enable <code>Edit workspace files</code>, <code>Run commands</code>, <code>Search files</code>. Without this agents can only suggest — they cannot write or execute.</div></div>
+          <div class="ib ib-tip"><span class="ib-icon">💡</span><div>After installing Copilot Chat: open the Chat panel, select <strong>Agent</strong> mode, then click the <strong>tools icon (🔧) in the chat input box</strong> to enable MCP Playwright tools. There is no Command Palette command for this in current VS Code versions.</div></div>
         </div>
       </div>
 
@@ -368,10 +372,10 @@ npx playwright --version</pre></div>
           <div class="ftree">
 <span class="ft-dir">sf-agentic-framework/</span>
 ├── <span class="ft-dir">.github/</span>
-│   ├── <span class="ft-dir">chatmodes/</span>              <span class="ft-note">← created by init-agents --loop=vscode</span>
-│   │   ├── <span class="ft-auto">🎭 planner.chatmode.md</span>
-│   │   ├── <span class="ft-auto">🎭 generator.chatmode.md</span>
-│   │   └── <span class="ft-auto">🎭 healer.chatmode.md</span>
+│   ├── <span class="ft-dir">agents/</span>                 <span class="ft-note">← created by init-agents --loop=vscode</span>
+│   │   ├── <span class="ft-auto">🎭 planner.agent.md</span>
+│   │   ├── <span class="ft-auto">🎭 generator.agent.md</span>
+│   │   └── <span class="ft-auto">🎭 healer.agent.md</span>
 │   └── <span class="ft-dir">workflows/</span>
 │       └── <span class="ft-auto">ci.yml</span>
 ├── <span class="ft-dir">.vscode/</span>
@@ -384,13 +388,21 @@ npx playwright --version</pre></div>
 │   ├── <span class="ft-auto">sf-selectors.md</span>
 │   └── <span class="ft-auto">agent-context.md</span>
 ├── <span class="ft-dir">tasks/</span>                     <span class="ft-note">← YOU write these (one per SF flow)</span>
-│   ├── <span class="ft-auto">lead-creation.md</span>
-│   └── <span class="ft-auto">opportunity-flow.md</span>
+│   ├── <span class="ft-dir">ui/</span>
+│   │   ├── <span class="ft-auto">lead-creation.md</span>
+│   │   └── <span class="ft-auto">opportunity-flow.md</span>
+│   └── <span class="ft-dir">api/</span>                   <span class="ft-note">← YOU write these for API flows</span>
+│       ├── <span class="ft-auto">lead-api-test.md</span>
+│       └── <span class="ft-auto">opportunity-api-test.md</span>
 ├── <span class="ft-dir">specs/</span>                     <span class="ft-note">← 🤖 AUTO-WRITTEN by Planner agent</span>
 │   └── <span class="ft-gen">lead-creation-plan.md</span>
-├── <span class="ft-dir">tests/</span>                     <span class="ft-note">← 🤖 AUTO-WRITTEN by Generator agent</span>
-│   ├── <span class="ft-auto">seed.spec.js</span>           <span class="ft-note">← created by init-agents (you edit this)</span>
-│   └── <span class="ft-gen">lead-creation.spec.js</span>
+├── <span class="ft-dir">tests/</span>
+│   ├── <span class="ft-auto">seed.spec.js</span>           <span class="ft-note">← shared auth fixture (init-agents creates this)</span>
+│   ├── <span class="ft-dir">UI/</span>                    <span class="ft-note">← 🤖 UI tests (browser) — Generator writes here</span>
+│   │   └── <span class="ft-gen">lead-creation.spec.js</span>
+│   └── <span class="ft-dir">API/</span>                   <span class="ft-note">← API tests (no browser needed)</span>
+│       ├── <span class="ft-auto">sf-leads-api.spec.js</span>
+│       └── <span class="ft-auto">sf-opportunities-api.spec.js</span>
 ├── <span class="ft-dir">utils/</span>
 │   ├── <span class="ft-auto">sf-helpers.js</span>          <span class="ft-note">← SF login + waitForSFLoad</span>
 │   ├── <span class="ft-auto">reporter-utils.js</span>      <span class="ft-note">← screenshot + allure helpers</span>
@@ -407,10 +419,11 @@ npx playwright --version</pre></div>
 └── <span class="ft-auto">package.json</span>
           </div>
           <div class="cb" style="margin-top:12px"><div class="cb-top"><span class="cb-file">terminal — create all dirs at once</span><span class="cb-lang">bash</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
-<pre>mkdir -p .github/chatmodes .github/workflows .vscode \
-  config memory tasks specs tests utils scripts \
+<pre>mkdir -p .github/agents .github/workflows .vscode \
+  config memory tasks/ui tasks/api specs \
+  tests/UI tests/API utils scripts \
   reports/allure-results reports/allure-report screenshots</pre></div>
-          <div class="ib ib-warn"><span class="ib-icon">⚠️</span><div><strong>Windows fix:</strong> Create <code>.github/chatmodes</code> manually first. Known ENOENT bug in <code>init-agents</code> on Windows — it fails if the directory doesn't already exist.</div></div>
+          <div class="ib ib-warn"><span class="ib-icon">⚠️</span><div><strong>Windows fix:</strong> Create <code>.github/agents</code> manually first. Known ENOENT bug in <code>init-agents</code> on Windows — it fails if the directory doesn't already exist.</div></div>
         </div>
       </div>
 
@@ -430,16 +443,22 @@ npx playwright --version</pre></div>
     <span class="cm">// ── Init agents (run once, re-run after PW updates) ──────</span>
     <span class="str">"agents:init"</span>: <span class="str">"npx playwright init-agents --loop=vscode"</span>,
 
-    <span class="cm">// ── Test execution ───────────────────────────────────────</span>
+    <span class="cm">// ── Run all tests (UI + API) ──────────────────────────────</span>
     <span class="str">"test"</span>: <span class="str">"npx playwright test --config=config/playwright.config.js"</span>,
     <span class="str">"test:headed"</span>: <span class="str">"npx playwright test --config=config/playwright.config.js --headed"</span>,
     <span class="str">"test:debug"</span>: <span class="str">"npx playwright test --config=config/playwright.config.js --debug"</span>,
-    <span class="str">"test:ui"</span>: <span class="str">"npx playwright test --config=config/playwright.config.js --ui"</span>,
+    <span class="str">"test:pw-ui"</span>: <span class="str">"npx playwright test --config=config/playwright.config.js --ui"</span>,
     <span class="str">"test:ci"</span>: <span class="str">"cross-env CI=true npx playwright test --config=config/playwright.config.js --retries=2"</span>,
 
-    <span class="cm">// ── Run a specific generated spec ────────────────────────</span>
-    <span class="str">"test:lead"</span>: <span class="str">"npx playwright test tests/lead-creation.spec.js --config=config/playwright.config.js"</span>,
-    <span class="str">"test:opportunity"</span>: <span class="str">"npx playwright test tests/opportunity-flow.spec.js --config=config/playwright.config.js"</span>,
+    <span class="cm">// ── UI tests only (browser) ───────────────────────────────</span>
+    <span class="str">"test:ui"</span>: <span class="str">"npx playwright test --config=config/playwright.config.js --project=ui-tests"</span>,
+    <span class="str">"test:ui:lead"</span>: <span class="str">"npx playwright test tests/UI/lead-creation.spec.js --config=config/playwright.config.js"</span>,
+    <span class="str">"test:ui:opportunity"</span>: <span class="str">"npx playwright test tests/UI/opportunity-flow.spec.js --config=config/playwright.config.js"</span>,
+
+    <span class="cm">// ── API tests only (no browser) ───────────────────────────</span>
+    <span class="str">"test:api"</span>: <span class="str">"npx playwright test --config=config/playwright.config.js --project=api-tests"</span>,
+    <span class="str">"test:api:lead"</span>: <span class="str">"npx playwright test tests/API/sf-leads-api.spec.js --config=config/playwright.config.js"</span>,
+    <span class="str">"test:api:opportunity"</span>: <span class="str">"npx playwright test tests/API/sf-opportunities-api.spec.js --config=config/playwright.config.js"</span>,
 
     <span class="cm">// ── Reports ──────────────────────────────────────────────</span>
     <span class="str">"report:allure"</span>: <span class="str">"allure generate reports/allure-results -o reports/allure-report --clean && allure open reports/allure-report"</span>,
@@ -492,13 +511,13 @@ ALLURE_RESULTS_DIR=./reports/allure-results</pre></div>
 <pre>npx playwright init-agents --loop=vscode</pre></div>
           <p>This generates:</p>
           <ul>
-            <li><code>.github/chatmodes/🎭 planner.chatmode.md</code> — full Planner agent instructions with MCP tool calls</li>
-            <li><code>.github/chatmodes/🎭 generator.chatmode.md</code> — Generator agent: reads .md plan → writes .spec.js</li>
-            <li><code>.github/chatmodes/🎭 healer.chatmode.md</code> — Healer agent: runs tests → patches failures in a loop</li>
+            <li><code>.github/agents/🎭 planner.agent.md</code> — full Planner agent instructions with MCP tool calls</li>
+            <li><code>.github/agents/🎭 generator.agent.md</code> — Generator agent: reads .md plan → writes .spec.js</li>
+            <li><code>.github/agents/🎭 healer.agent.md</code> — Healer agent: runs tests → patches failures in a loop</li>
             <li><code>tests/seed.spec.js</code> — base fixture file (you will customise this for Salesforce)</li>
             <li><code>.vscode/mcp.json</code> — MCP server config connecting VS Code to Playwright browser tools</li>
           </ul>
-          <div class="ib ib-ok"><span class="ib-icon">✅</span><div><strong>Re-run this command every time Playwright updates.</strong> The chatmode files contain model-specific MCP tool names that change between Playwright versions.</div></div>
+          <div class="ib ib-ok"><span class="ib-icon">✅</span><div><strong>Re-run this command every time Playwright updates.</strong> The agent files contain model-specific MCP tool names that change between Playwright versions.</div></div>
         </div>
       </div>
 
@@ -541,7 +560,7 @@ ALLURE_RESULTS_DIR=./reports/allure-results</pre></div>
   <span class="str">"playwright.showTrace"</span>: <span class="kw">true</span>,
   <span class="str">"editor.formatOnSave"</span>: <span class="kw">true</span>,
   <span class="str">"files.associations"</span>: {
-    <span class="str">"*.chatmode.md"</span>: <span class="str">"markdown"</span>
+    <span class="str">"*.agent.md"</span>: <span class="str">"markdown"</span>
   }
 }</pre></div>
         </div>
@@ -615,9 +634,9 @@ test(<span class="str">'seed: verify Salesforce login works'</span>, <span class
 <span class="cm">## Stack</span>
 - Playwright Test Agents v1.56+ (official Microsoft)
 - VS Code v1.105+ with GitHub Copilot Chat
-- Agents: .github/chatmodes/ (Planner, Generator, Healer)
+- Agents: .github/agents/ (Planner, Generator, Healer)
 - Auth: globalSetup → reports/.auth-state.json → all tests reuse
-- Reports: Allure (HTML) + Playwright HTML + JUnit (CI)
+- Reports: Allure 3 (HTML) + Playwright HTML + JUnit (CI)
 
 <span class="cm">## Non-Negotiable Locator Rules</span>
 NEVER use CSS class selectors or XPath with IDs.
@@ -1111,18 +1130,47 @@ npm run report:pw</pre></div>
       <div class="step open">
         <div class="step-hd" onclick="toggle(this)">
           <span class="step-n" style="background:rgba(249,115,22,.12);color:var(--m7)">1</span>
-          <span class="step-t">One-time: Verify & Configure Copilot Agent Mode</span><span class="step-chev">▶</span>
+          <span class="step-t">One-time: Enable Agent Mode & Configure Tools</span><span class="step-chev">▶</span>
         </div>
         <div class="step-body">
-          <div class="cb"><div class="cb-top"><span class="cb-file">VS Code setup</span></div>
-<pre>1. Open Copilot Chat panel  (Ctrl/Cmd + Shift + I)
-2. Click the "Agent mode" dropdown (top of chat)
-3. Command Palette → "Chat: Configure Tools"
-   ✅ Enable: Edit workspace files
-   ✅ Enable: Run commands
-   ✅ Enable: Search files
-   ✅ Enable: Playwright MCP tools (under mcp > playwright)
-4. Restart VS Code after enabling tools</pre></div>
+          <div class="ib ib-warn"><span class="ib-icon">⚠️</span><div><strong>VS Code changed this UI.</strong> "Chat: Configure Tools" (Command Palette) no longer exists. Tools are now enabled via a button directly inside the chat input. Follow the steps below for the current UI.</div></div>
+
+          <div class="cb"><div class="cb-top"><span class="cb-file">Step 1 — Enable agent mode in Settings</span></div>
+<pre>VS Code → Settings  (Ctrl/Cmd + ,)
+Search:  chat.agent.enabled
+✅ Set to true
+Reload VS Code</pre></div>
+
+          <div class="cb"><div class="cb-top"><span class="cb-file">Step 2 — Open Chat in Agent mode</span></div>
+<pre>Open Copilot Chat  (Ctrl/Cmd + Shift + I)
+Look at the mode dropdown in the chat input bar
+Select "Agent"    ← must be Agent, not Ask or Edit</pre></div>
+
+          <div class="cb"><div class="cb-top"><span class="cb-file">Step 3 — Open the Tools picker (NEW location)</span></div>
+<pre>In the chat input box, click the 🔧 tools icon (wrench/spanner)
+A tools popup panel opens — this replaces the old Command Palette command
+
+✅ Enable: codebase       (search workspace files)
+✅ Enable: editFiles      (write and edit files)
+✅ Enable: runCommands    (run terminal commands)
+✅ Enable: playwright     (under the mcp section → playwright server)
+
+Use the search box in the picker to find tools by name quickly</pre></div>
+
+          <div class="ib ib-info"><span class="ib-icon">💡</span><div><strong>What "Chat: Configure Tool Sets" is</strong> — if you see this instead, it is a different feature for grouping tools into named presets. It is NOT where you enable individual tools. Ignore it and use the 🔧 icon in the chat input directly.</div></div>
+
+          <div class="cb"><div class="cb-top"><span class="cb-file">Step 4 — Migrate agent files (if VS Code shows a yellow marker)</span></div>
+<pre># init-agents may still generate .chatmode.md files on older Playwright.
+# VS Code 1.106+ shows a yellow info marker on line 1 of those files.
+# Click it → "Migrate to custom agent" to auto-rename to .agent.md
+#
+# Or rename manually:
+mkdir -p .github/agents
+mv ".github/chatmodes/🎭 planner.chatmode.md"   ".github/agents/🎭 planner.agent.md"
+mv ".github/chatmodes/🎭 generator.chatmode.md" ".github/agents/🎭 generator.agent.md"
+mv ".github/chatmodes/🎭 healer.chatmode.md"    ".github/agents/🎭 healer.agent.md"
+#
+# Both .chatmode.md and .agent.md work — .agent.md is the preferred format going forward</pre></div>
         </div>
       </div>
 
@@ -1132,10 +1180,10 @@ npm run report:pw</pre></div>
           <span class="step-t">Run Planner Agent — Explore SF & Write Plan</span><span class="step-chev">▶</span>
         </div>
         <div class="step-body">
-          <div class="cb"><div class="cb-top"><span class="cb-file">Copilot Chat → click @ → select "🎭 planner"</span></div>
-<pre>1. Open Copilot Chat (Ctrl/Cmd+Shift+I)
-2. Click the "@" icon in the chat input
-3. Select "🎭 planner" from the agent list</pre></div>
+          <div class="cb"><div class="cb-top"><span class="cb-file">Copilot Chat → Agents dropdown → select "🎭 planner"</span></div>
+<pre>1. Open Copilot Chat  (Ctrl/Cmd + Shift + I)
+2. Click the Agents dropdown in the chat input bar
+3. Select "🎭 planner" from the custom agents list</pre></div>
           <div class="prompt-block">
             <div class="prompt-label">📝 Prompt for Planner</div>
             <div class="prompt-text">Read memory/framework-memory.md and memory/sf-selectors.md first.<br/><br/>Then read tasks/lead-creation.md.<br/><br/>Use the Playwright MCP browser tools to open Salesforce at the URL in .env, login using the seed fixture in tests/seed.spec.js, navigate to the Leads module, and explore the Lead creation flow.<br/><br/>Take screenshots at each step. Write a detailed test plan to specs/lead-creation-plan.md following the structure in memory/agent-context.md.</div>
@@ -1150,8 +1198,8 @@ npm run report:pw</pre></div>
           <span class="step-t">Run Generator Agent — Write Playwright Tests</span><span class="step-chev">▶</span>
         </div>
         <div class="step-body">
-          <div class="cb"><div class="cb-top"><span class="cb-file">Copilot Chat → @ → "🎭 generator"</span></div>
-<pre>Select "🎭 generator" from the @ agent list</pre></div>
+          <div class="cb"><div class="cb-top"><span class="cb-file">Copilot Chat → Agents dropdown → "🎭 generator"</span></div>
+<pre>Select "🎭 generator" from the Agents dropdown</pre></div>
           <div class="prompt-block">
             <div class="prompt-label">⚡ Prompt for Generator</div>
             <div class="prompt-text">Read specs/lead-creation-plan.md.<br/><br/>Read tests/seed.spec.js to understand the auth fixture pattern.<br/><br/>Generate tests/lead-creation.spec.js with:<br/>— allure annotations (epic: CRM, feature: Lead Management, story: Create Lead, severity: critical)<br/>— captureScreenshot(page, 'step-name') after every major action<br/>— sfStep() wrappers for every step<br/>— expect() assertions at every step<br/>— afterEach that screenshots on failure<br/>— ONLY getByRole / getByLabel / getByText / getByPlaceholder locators</div>
@@ -1324,6 +1372,824 @@ screenshots/
           <div class="ib ib-info"><span class="ib-icon">💡</span><div><strong>Commit the chatmode files</strong> — <code>.github/chatmodes/*.chatmode.md</code> should be committed. They are the agent definitions the whole team shares. Re-generate them when updating Playwright.</div></div>
         </div>
       </div>
+    </section>
+
+    <!-- ══════════ M9 ══════════ -->
+    <section class="milestone" id="m9">
+      <div class="ms-header">
+        <span class="ms-badge" style="background:rgba(225,29,72,.10);border:1px solid rgba(225,29,72,.3);color:var(--m9)">M9</span>
+        <div><div class="ms-title">Jenkins Pipeline</div><div class="ms-desc">Run the full SF Playwright agent test suite from a Jenkins server — Declarative Pipeline, Allure plugin, and parameterised builds</div></div>
+      </div>
+
+      <div class="step open">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(225,29,72,.12);color:var(--m9)">1</span>
+          <span class="step-t">Prerequisites — Jenkins Setup</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <p>Before wiring the Jenkinsfile, make sure the server has the following installed and configured.</p>
+          <div class="cb"><div class="cb-top"><span class="cb-file">Jenkins server — required plugins &amp; tools</span></div>
+<pre><span class="cm"># ── Jenkins Plugins (Manage Jenkins → Plugins) ────────────</span>
+NodeJS Plugin          <span class="cm"># lets Jenkins use a specific Node version</span>
+Allure Jenkins Plugin  <span class="cm"># renders Allure reports inside the build page</span>
+Pipeline              <span class="cm"># Declarative Pipeline support (usually pre-installed)</span>
+Credentials Binding   <span class="cm"># injects secrets as env vars in withCredentials()</span>
+Git Plugin            <span class="cm"># checkout from GitHub/GitLab/Bitbucket</span>
+HTML Publisher        <span class="cm"># optional – also publish Playwright HTML report</span>
+
+<span class="cm"># ── Global Tool Config (Manage Jenkins → Tools) ───────────</span>
+NodeJS installation:
+  Name: Node20
+  Version: 20.x (auto-installed by plugin)
+
+Allure installation:
+  Name: allure
+  Version: 2.30.0 (auto-installed by plugin)</pre></div>
+          <div class="ib ib-tip"><span class="ib-icon">💡</span><div>If your Jenkins agent is Linux, also run <code>npx playwright install-deps chromium</code> once on the agent machine to install browser system dependencies.</div></div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(225,29,72,.12);color:var(--m9)">2</span>
+          <span class="step-t">Add SF Credentials to Jenkins Credential Store</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="cb"><div class="cb-top"><span class="cb-file">Jenkins → Manage Jenkins → Credentials → Global → Add Credential</span></div>
+<pre>Kind: Secret text  → ID: SF_URL             → Value: https://your-org.lightning.force.com
+Kind: Secret text  → ID: SF_USERNAME         → Value: your@email.com
+Kind: Secret text  → ID: SF_PASSWORD         → Value: YourPassword
+Kind: Secret text  → ID: SF_SECURITY_TOKEN   → Value: YourToken</pre></div>
+          <div class="ib ib-warn"><span class="ib-icon">⚠️</span><div>Use <strong>Secret text</strong> kind for each credential. The Jenkinsfile binds them via <code>withCredentials</code> so they are never printed in console output.</div></div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(225,29,72,.12);color:var(--m9)">3</span>
+          <span class="step-t">Jenkinsfile — Declarative Pipeline (add to project root)</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="cb"><div class="cb-top"><span class="cb-file">Jenkinsfile</span><span class="cb-lang">groovy</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre><span class="kw">pipeline</span> {
+  <span class="kw">agent</span> any
+
+  <span class="cm">/* ── Tools ─────────────────────────────────────────────── */</span>
+  tools {
+    nodejs <span class="str">'Node20'</span>         <span class="cm">// matches NodeJS plugin global tool name</span>
+    allure <span class="str">'allure'</span>         <span class="cm">// matches Allure plugin global tool name</span>
+  }
+
+  <span class="cm">/* ── Parameters — trigger any task from Jenkins UI ─────── */</span>
+  parameters {
+    choice(
+      name: <span class="str">'TEST_SUITE'</span>,
+      choices: [<span class="str">'all'</span>, <span class="str">'lead'</span>, <span class="str">'opportunity'</span>],
+      description: <span class="str">'Which test suite to run'</span>
+    )
+    booleanParam(
+      name: <span class="str">'HEADED'</span>,
+      defaultValue: <span class="kw">false</span>,
+      description: <span class="str">'Run browser in headed mode (requires display / Xvfb)'</span>
+    )
+    string(
+      name: <span class="str">'RETRIES'</span>,
+      defaultValue: <span class="str">'2'</span>,
+      description: <span class="str">'Playwright retry count on failure'</span>
+    )
+  }
+
+  <span class="cm">/* ── Environment ────────────────────────────────────────── */</span>
+  environment {
+    CI          = <span class="str">'true'</span>
+    HEADLESS    = <span class="str">"${!params.HEADED}"</span>
+    ALLURE_DIR  = <span class="str">'reports/allure-results'</span>
+    NODE_PATH   = <span class="str">"${WORKSPACE}/node_modules"</span>
+  }
+
+  <span class="cm">/* ── Options ────────────────────────────────────────────── */</span>
+  options {
+    timeout(time: <span class="num">60</span>, unit: <span class="str">'MINUTES'</span>)
+    disableConcurrentBuilds()
+    buildDiscarder(logRotator(numToKeepStr: <span class="str">'20'</span>))
+    timestamps()
+  }
+
+  <span class="cm">/* ── Triggers ───────────────────────────────────────────── */</span>
+  triggers {
+    cron(<span class="str">'H 2 * * *'</span>)         <span class="cm">// nightly at ~2 AM</span>
+  }
+
+  <span class="cm">/* ── Stages ─────────────────────────────────────────────── */</span>
+  stages {
+
+    stage(<span class="str">'Checkout'</span>) {
+      steps {
+        checkout scm
+        sh <span class="str">'''
+          echo "Branch: ${GIT_BRANCH}"
+          echo "Commit: ${GIT_COMMIT}"
+          node --version
+          npm --version
+        '''</span>
+      }
+    }
+
+    stage(<span class="str">'Install Dependencies'</span>) {
+      steps {
+        sh <span class="str">'npm ci'</span>
+      }
+    }
+
+    stage(<span class="str">'Install Playwright Browsers'</span>) {
+      steps {
+        sh <span class="str">'npx playwright install chromium --with-deps'</span>
+      }
+    }
+
+    stage(<span class="str">'Run Tests'</span>) {
+      steps {
+        <span class="cm">// Inject SF credentials from Jenkins credential store</span>
+        withCredentials([
+          string(credentialsId: <span class="str">'SF_URL'</span>,           variable: <span class="str">'SF_URL'</span>),
+          string(credentialsId: <span class="str">'SF_USERNAME'</span>,      variable: <span class="str">'SF_USERNAME'</span>),
+          string(credentialsId: <span class="str">'SF_PASSWORD'</span>,      variable: <span class="str">'SF_PASSWORD'</span>),
+          string(credentialsId: <span class="str">'SF_SECURITY_TOKEN'</span>,variable: <span class="str">'SF_SECURITY_TOKEN'</span>)
+        ]) {
+          script {
+            <span class="cm">// Build the right Playwright command based on TEST_SUITE param</span>
+            def cmd = <span class="str">'npx playwright test --config=config/playwright.config.js'</span>
+            cmd += <span class="str">" --retries=${params.RETRIES}"</span>
+
+            <span class="kw">switch</span>(params.TEST_SUITE) {
+              <span class="kw">case</span> <span class="str">'lead'</span>:
+                cmd += <span class="str">' tests/lead-creation.spec.js'</span>; <span class="kw">break</span>
+              <span class="kw">case</span> <span class="str">'opportunity'</span>:
+                cmd += <span class="str">' tests/opportunity-flow.spec.js'</span>; <span class="kw">break</span>
+              default:
+                <span class="cm">// 'all' — run everything in tests/</span>
+            }
+
+            sh cmd
+          }
+        }
+      }
+      post {
+        always {
+          <span class="cm">// Stash test results so the Reporting stage always has them</span>
+          stash includes: <span class="str">'reports/**'</span>, name: <span class="str">'test-results'</span>, allowEmpty: <span class="kw">true</span>
+        }
+      }
+    }
+
+    stage(<span class="str">'Generate Reports'</span>) {
+      steps {
+        unstash <span class="str">'test-results'</span>
+        <span class="cm">// Allure report from raw results</span>
+        sh <span class="str">'''
+          allure generate reports/allure-results \
+            -o reports/allure-report --clean || true
+        '''</span>
+      }
+    }
+
+  }
+
+  <span class="cm">/* ── Post Actions ───────────────────────────────────────── */</span>
+  post {
+    always {
+      <span class="cm">// Allure plugin — renders report in the build sidebar</span>
+      allure([
+        includeProperties: <span class="kw">false</span>,
+        jdk: <span class="str">''</span>,
+        results: [[path: <span class="str">'reports/allure-results'</span>]],
+        report: <span class="str">'reports/allure-report'</span>,
+        reportBuildPolicy: <span class="str">'ALWAYS'</span>
+      ])
+
+      <span class="cm">// JUnit results — shows test trend graph on build page</span>
+      junit(
+        testResults: <span class="str">'reports/junit-results.xml'</span>,
+        allowEmptyResults: <span class="kw">true</span>
+      )
+
+      <span class="cm">// Archive screenshots and traces on failure</span>
+      archiveArtifacts(
+        artifacts: <span class="str">'reports/test-results/**,screenshots/**'</span>,
+        allowEmptyArchive: <span class="kw">true</span>
+      )
+
+      <span class="cm">// Playwright HTML report as archived artifact</span>
+      publishHTML(target: [
+        allowMissing: <span class="kw">true</span>,
+        alwaysLinkToLastBuild: <span class="kw">true</span>,
+        keepAll: <span class="kw">true</span>,
+        reportDir: <span class="str">'reports/playwright-report'</span>,
+        reportFiles: <span class="str">'index.html'</span>,
+        reportName: <span class="str">'Playwright Report'</span>
+      ])
+    }
+
+    success {
+      echo <span class="str">'✅ All SF tests passed!'</span>
+    }
+
+    failure {
+      echo <span class="str">'❌ Tests failed — check Allure report and archived screenshots.'</span>
+    }
+
+    unstable {
+      echo <span class="str">'⚠️  Some tests are unstable (flaky). Review the Allure trend.'</span>
+    }
+  }
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(225,29,72,.12);color:var(--m9)">4</span>
+          <span class="step-t">Create the Jenkins Job</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="cb"><div class="cb-top"><span class="cb-file">Jenkins UI — steps to create the pipeline job</span></div>
+<pre>1. Jenkins Dashboard → New Item
+2. Enter name: SF-Agentic-Tests
+3. Select: Pipeline → OK
+
+4. General tab:
+   ✅ Discard old builds → Max # of builds: 20
+   ✅ This project is parameterised  (auto-detected from Jenkinsfile)
+
+5. Build Triggers tab:
+   ✅ Build periodically → Schedule: H 2 * * *  (nightly)
+   ✅ GitHub hook trigger (optional — for PR-triggered runs)
+
+6. Pipeline tab:
+   Definition: Pipeline script from SCM
+   SCM: Git
+   Repository URL: https://github.com/your-org/sf-agentic-framework
+   Branch: */main
+   Script Path: Jenkinsfile   ← default, leave as-is
+
+7. Save → Build Now (first run)</pre></div>
+          <div class="ib ib-ok"><span class="ib-icon">✅</span><div>After the first run you will see <strong>Allure Report</strong> and <strong>Playwright Report</strong> links in the build sidebar, plus a test trend graph on the job page from the JUnit results.</div></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(225,29,72,.12);color:var(--m9)">5</span>
+          <span class="step-t">Run Specific Suite from Jenkins UI</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <p>Because the Jenkinsfile declares <code>parameters</code>, every manual trigger shows a <strong>Build with Parameters</strong> form:</p>
+          <div class="cb"><div class="cb-top"><span class="cb-file">Jenkins → SF-Agentic-Tests → Build with Parameters</span></div>
+<pre>TEST_SUITE:   all | lead | opportunity
+HEADED:       false (default) | true (needs Xvfb on agent)
+RETRIES:      2 (default)</pre></div>
+          <div class="cb"><div class="cb-top"><span class="cb-file">Or trigger via Jenkins CLI / REST API</span><span class="cb-lang">bash</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre><span class="cm"># Run only Lead tests, no retries</span>
+curl -X POST \
+  "https://your-jenkins/job/SF-Agentic-Tests/buildWithParameters" \
+  --user "user:api-token" \
+  --data "TEST_SUITE=lead&RETRIES=0"
+
+<span class="cm"># Run all tests (default)</span>
+curl -X POST \
+  "https://your-jenkins/job/SF-Agentic-Tests/build" \
+  --user "user:api-token"</pre></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(225,29,72,.12);color:var(--m9)">6</span>
+          <span class="step-t">Docker Agent (Optional — Clean Builds)</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <p>Replace <code>agent any</code> with this to run inside a container — no Node/browser setup needed on the Jenkins host.</p>
+          <div class="cb"><div class="cb-top"><span class="cb-file">Jenkinsfile — agent block replacement</span><span class="cb-lang">groovy</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre><span class="kw">agent</span> {
+  docker {
+    image <span class="str">'mcr.microsoft.com/playwright:v1.56.0-noble'</span>
+    args  <span class="str">'--ipc=host -u root'</span>
+    reuseNode <span class="kw">true</span>
+  }
+}</pre></div>
+          <div class="ib ib-tip"><span class="ib-icon">💡</span><div>Microsoft's official Playwright Docker image includes Chromium and all system dependencies pre-installed. Change the image tag to match your Playwright version in <code>package.json</code>. When using this agent, remove the <code>Install Playwright Browsers</code> stage — browsers are already in the image.</div></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(225,29,72,.12);color:var(--m9)">7</span>
+          <span class="step-t">Updated .gitignore — Nothing Extra Needed</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <p>The Jenkinsfile lives at the project root and must be committed. The <code>.gitignore</code> from M8 already covers all report/artifact directories — no changes required.</p>
+          <div class="ib ib-ok"><span class="ib-icon">✅</span><div>Commit <code>Jenkinsfile</code> alongside your other project files. Jenkins reads it directly from SCM on every build.</div></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════ M10 ══════════ -->
+    <section class="milestone" id="m10">
+      <div class="ms-header">
+        <span class="ms-badge" style="background:rgba(14,165,233,.10);border:1px solid rgba(14,165,233,.3);color:var(--m10)">M10</span>
+        <div><div class="ms-title">API Testing — tests/API</div><div class="ms-desc">Test Salesforce REST APIs in the same framework, same reporters, zero new dependencies — Playwright's built-in <code>request</code> fixture handles everything</div></div>
+      </div>
+
+      <div class="step open">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(14,165,233,.12);color:var(--m10)">1</span>
+          <span class="step-t">How API Testing Works in This Framework</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <p>Playwright ships a built-in HTTP client — <code>request</code> — that works like a full API testing tool. No Axios, no Supertest, no extra packages. The same Allure reporter, same <code>playwright.config.js</code>, same CI pipeline.</p>
+          <div class="flow">
+            <div class="fbox" style="border-color:var(--m10);color:var(--m10)">📝 tasks/api/*.md<br/><small style="color:var(--dim);font-weight:400">you write</small></div>
+            <div class="farr">→</div>
+            <div class="fbox" style="border-color:var(--m3);color:var(--m3)">@🎭 generator<br/><small style="color:var(--dim);font-weight:400">writes API spec</small></div>
+            <div class="farr">→</div>
+            <div class="fbox" style="border-color:var(--m4);color:var(--m4)">tests/API/*.spec.js<br/><small style="color:var(--dim);font-weight:400">HTTP requests</small></div>
+            <div class="farr">→</div>
+            <div class="fbox" style="border-color:var(--m6);color:var(--m6)">Assertions<br/><small style="color:var(--dim);font-weight:400">status + body</small></div>
+            <div class="farr">→</div>
+            <div class="fbox" style="border-color:var(--m8);color:var(--m8)">Allure Report<br/><small style="color:var(--dim);font-weight:400">same report</small></div>
+          </div>
+          <div class="ib ib-ok"><span class="ib-icon">✅</span><div><strong>Two approaches:</strong> (1) <strong>Simple</strong> — copy the example tests in <code>tests/API/</code>, swap in your endpoint URLs and expected values, run. (2) <strong>Agentic</strong> — write a task file in <code>tasks/api/</code>, prompt <code>@🎭 generator</code>, it writes the full API spec for you.</div></div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(14,165,233,.12);color:var(--m10)">2</span>
+          <span class="step-t">Update .env — Add API Credentials</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="cb"><div class="cb-top"><span class="cb-file">.env — add these lines</span><span class="cb-lang">env</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre><span class="cm"># ── Salesforce REST API ─────────────────────────────────────</span>
+SF_API_VERSION=v58.0
+
+<span class="cm"># Option A — Connected App (full OAuth, recommended)</span>
+SF_CLIENT_ID=3MVG9xxxxxxxxxxxxxxxxxxxxx
+SF_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxx
+
+<span class="cm"># Option B — Session ID (quick, no Connected App needed)</span>
+<span class="cm"># Get from: SF → Settings → Session Management → copy Session ID</span>
+SF_SESSION_ID=00Dxxxxxxxxxx!xxxxxxxxxxxxxxxxxxxxxxxxx</pre></div>
+          <div class="ib ib-tip"><span class="ib-icon">💡</span><div><strong>Option B is the fastest start.</strong> Log into Salesforce, open DevTools → Application → Cookies → find <code>sid</code>, copy its value to <code>SF_SESSION_ID</code>. The <code>sf-api-helpers.js</code> will auto-detect which option to use.</div></div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(14,165,233,.12);color:var(--m10)">3</span>
+          <span class="step-t">Update playwright.config.js — Add api-tests Project</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <p>Add a second project that points to <code>tests/API</code>. No browser is launched for API tests — they use the built-in HTTP client only.</p>
+          <div class="cb"><div class="cb-top"><span class="cb-file">config/playwright.config.js — updated projects array</span><span class="cb-lang">js</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre>projects: [
+  <span class="cm">// ── Browser UI tests ─────────────────────────────────────</span>
+  {
+    name: <span class="str">'ui-tests'</span>,
+    testDir: <span class="str">'../tests/UI'</span>,
+    use: {
+      ...devices[<span class="str">'Desktop Chrome'</span>],
+      channel: <span class="str">'chrome'</span>,
+      storageState: <span class="str">'./reports/.auth-state.json'</span>,
+    },
+  },
+  <span class="cm">// ── API tests (no browser) ───────────────────────────────</span>
+  {
+    name: <span class="str">'api-tests'</span>,
+    testDir: <span class="str">'../tests/API'</span>,
+    use: {
+      baseURL: process.env.SF_URL,
+      extraHTTPHeaders: {
+        <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>,
+        <span class="str">'Accept'</span>: <span class="str">'application/json'</span>,
+      },
+    },
+  },
+],</pre></div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(14,165,233,.12);color:var(--m10)">4</span>
+          <span class="step-t">utils/sf-api-helpers.js — Auth + Request Wrapper</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="cb"><div class="cb-top"><span class="cb-file">utils/sf-api-helpers.js</span><span class="cb-lang">js</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre><span class="kw">import</span> 'dotenv/config';
+
+<span class="cm">/**
+ * SF API HELPERS
+ * Thin wrapper around Playwright's request fixture for Salesforce REST API.
+ * Auto-detects auth: OAuth (CLIENT_ID set) or direct Session ID.
+ */</span>
+
+<span class="kw">const</span> API_VERSION = process.env.SF_API_VERSION || <span class="str">'v58.0'</span>;
+
+<span class="cm">/** Get the Authorization header value — try OAuth first, fall back to Session ID */</span>
+<span class="kw">export async function</span> <span class="fn">getSFToken</span>(request) {
+  <span class="kw">if</span> (process.env.SF_CLIENT_ID) {
+    <span class="cm">// Option A: Username-Password OAuth flow</span>
+    <span class="kw">const</span> res = <span class="kw">await</span> request.<span class="fn">post</span>(<span class="str">`${process.env.SF_URL}/services/oauth2/token`</span>, {
+      form: {
+        grant_type: <span class="str">'password'</span>,
+        client_id: process.env.SF_CLIENT_ID,
+        client_secret: process.env.SF_CLIENT_SECRET,
+        username: process.env.SF_USERNAME,
+        password: process.env.SF_PASSWORD + (process.env.SF_SECURITY_TOKEN || <span class="str">''</span>),
+      },
+    });
+    <span class="kw">const</span> body = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="kw">return</span> `Bearer ${body.access_token}`;
+  }
+  <span class="cm">// Option B: Direct Session ID</span>
+  <span class="kw">return</span> `Bearer ${process.env.SF_SESSION_ID}`;
+}
+
+<span class="cm">/** Build the base REST API URL */</span>
+<span class="kw">export function</span> <span class="fn">apiUrl</span>(path) {
+  <span class="kw">return</span> `${process.env.SF_URL}/services/data/${API_VERSION}/${path}`;
+}
+
+<span class="cm">/** GET helper with auth injected */</span>
+<span class="kw">export async function</span> <span class="fn">sfGet</span>(request, path, token) {
+  <span class="kw">return</span> request.<span class="fn">get</span>(<span class="fn">apiUrl</span>(path), {
+    headers: { Authorization: token },
+  });
+}
+
+<span class="cm">/** POST helper */</span>
+<span class="kw">export async function</span> <span class="fn">sfPost</span>(request, path, data, token) {
+  <span class="kw">return</span> request.<span class="fn">post</span>(<span class="fn">apiUrl</span>(path), {
+    headers: { Authorization: token },
+    data,
+  });
+}
+
+<span class="cm">/** PATCH helper (update) */</span>
+<span class="kw">export async function</span> <span class="fn">sfPatch</span>(request, path, data, token) {
+  <span class="kw">return</span> request.<span class="fn">patch</span>(<span class="fn">apiUrl</span>(path), {
+    headers: { Authorization: token },
+    data,
+  });
+}
+
+<span class="cm">/** DELETE helper */</span>
+<span class="kw">export async function</span> <span class="fn">sfDelete</span>(request, path, token) {
+  <span class="kw">return</span> request.<span class="fn">delete</span>(<span class="fn">apiUrl</span>(path), {
+    headers: { Authorization: token },
+  });
+}
+
+<span class="cm">/** SOQL query helper */</span>
+<span class="kw">export async function</span> <span class="fn">sfQuery</span>(request, soql, token) {
+  <span class="kw">const</span> q = encodeURIComponent(soql);
+  <span class="kw">return</span> request.<span class="fn">get</span>(<span class="fn">apiUrl</span>(`query/?q=${q}`), {
+    headers: { Authorization: token },
+  });
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="step open">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(14,165,233,.12);color:var(--m10)">5</span>
+          <span class="step-t">tests/API/sf-leads-api.spec.js — Complete Example</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <p>This is a ready-to-run API test file. It tests Create, Read, Update, Delete and SOQL query on the Lead object — all via Salesforce REST API.</p>
+          <div class="cb"><div class="cb-top"><span class="cb-file">tests/API/sf-leads-api.spec.js</span><span class="cb-lang">js</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre><span class="kw">import</span> { test, expect } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+<span class="kw">import</span> * <span class="kw">as</span> allure <span class="kw">from</span> <span class="str">'allure-js-commons'</span>;
+<span class="kw">import</span> {
+  <span class="fn">getSFToken</span>, <span class="fn">sfGet</span>, <span class="fn">sfPost</span>, <span class="fn">sfPatch</span>, <span class="fn">sfDelete</span>, <span class="fn">sfQuery</span>
+} <span class="kw">from</span> <span class="str">'../../utils/sf-api-helpers.js'</span>;
+
+<span class="cm">/** Shared across all tests in this file */</span>
+<span class="kw">let</span> token;
+<span class="kw">let</span> createdLeadId;
+
+test.<span class="fn">describe</span>(<span class="str">'Salesforce Leads API'</span>, () => {
+
+  test.<span class="fn">beforeAll</span>(<span class="kw">async</span> ({ request }) => {
+    token = <span class="kw">await</span> <span class="fn">getSFToken</span>(request);
+  });
+
+  test.<span class="fn">beforeEach</span>(<span class="kw">async</span> () => {
+    <span class="kw">await</span> allure.<span class="fn">epic</span>(<span class="str">'CRM API'</span>);
+    <span class="kw">await</span> allure.<span class="fn">feature</span>(<span class="str">'Lead REST API'</span>);
+    <span class="kw">await</span> allure.<span class="fn">severity</span>(<span class="str">'critical'</span>);
+  });
+
+  <span class="cm">// ── CREATE ────────────────────────────────────────────────</span>
+  test(<span class="str">'POST /sobjects/Lead — create a new Lead'</span>, <span class="kw">async</span> ({ request }) => {
+    <span class="kw">await</span> allure.<span class="fn">story</span>(<span class="str">'Create Lead via API'</span>);
+
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">sfPost</span>(request, <span class="str">'sobjects/Lead'</span>, {
+      FirstName: <span class="str">'API'</span>,
+      LastName: <span class="str">`Test-${Date.now()}`</span>,
+      Company: <span class="str">'SF Agentic API Inc.'</span>,
+      Email: <span class="str">'api.test@sf-framework.com'</span>,
+      Status: <span class="str">'Open - Not Contacted'</span>,
+      LeadSource: <span class="str">'Web'</span>,
+    }, token);
+
+    <span class="fn">expect</span>(res.status()).<span class="fn">toBe</span>(<span class="num">201</span>);
+
+    <span class="kw">const</span> body = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="fn">expect</span>(body.success).<span class="fn">toBe</span>(<span class="kw">true</span>);
+    <span class="fn">expect</span>(body.id).<span class="fn">toBeTruthy</span>();
+
+    createdLeadId = body.id; <span class="cm">// save for next tests</span>
+    <span class="kw">await</span> allure.<span class="fn">parameter</span>(<span class="str">'Created Lead ID'</span>, createdLeadId);
+  });
+
+  <span class="cm">// ── READ ──────────────────────────────────────────────────</span>
+  test(<span class="str">'GET /sobjects/Lead/:id — read the created Lead'</span>, <span class="kw">async</span> ({ request }) => {
+    <span class="kw">await</span> allure.<span class="fn">story</span>(<span class="str">'Read Lead via API'</span>);
+
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">sfGet</span>(request, `sobjects/Lead/${createdLeadId}`, token);
+
+    <span class="fn">expect</span>(res.status()).<span class="fn">toBe</span>(<span class="num">200</span>);
+
+    <span class="kw">const</span> lead = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="fn">expect</span>(lead.FirstName).<span class="fn">toBe</span>(<span class="str">'API'</span>);
+    <span class="fn">expect</span>(lead.Company).<span class="fn">toBe</span>(<span class="str">'SF Agentic API Inc.'</span>);
+    <span class="fn">expect</span>(lead.Status).<span class="fn">toBe</span>(<span class="str">'Open - Not Contacted'</span>);
+    <span class="fn">expect</span>(lead.LeadSource).<span class="fn">toBe</span>(<span class="str">'Web'</span>);
+  });
+
+  <span class="cm">// ── UPDATE ────────────────────────────────────────────────</span>
+  test(<span class="str">'PATCH /sobjects/Lead/:id — update Lead status'</span>, <span class="kw">async</span> ({ request }) => {
+    <span class="kw">await</span> allure.<span class="fn">story</span>(<span class="str">'Update Lead via API'</span>);
+
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">sfPatch</span>(request, `sobjects/Lead/${createdLeadId}`, {
+      Status: <span class="str">'Working - Contacted'</span>,
+      Rating: <span class="str">'Hot'</span>,
+    }, token);
+
+    <span class="fn">expect</span>(res.status()).<span class="fn">toBe</span>(<span class="num">204</span>); <span class="cm">// SF returns 204 No Content on PATCH</span>
+
+    <span class="cm">// Verify the update took effect</span>
+    <span class="kw">const</span> check = <span class="kw">await</span> <span class="fn">sfGet</span>(request, `sobjects/Lead/${createdLeadId}`, token);
+    <span class="kw">const</span> updated = <span class="kw">await</span> check.<span class="fn">json</span>();
+    <span class="fn">expect</span>(updated.Status).<span class="fn">toBe</span>(<span class="str">'Working - Contacted'</span>);
+    <span class="fn">expect</span>(updated.Rating).<span class="fn">toBe</span>(<span class="str">'Hot'</span>);
+  });
+
+  <span class="cm">// ── SOQL QUERY ────────────────────────────────────────────</span>
+  test(<span class="str">'GET /query — SOQL search for the created Lead'</span>, <span class="kw">async</span> ({ request }) => {
+    <span class="kw">await</span> allure.<span class="fn">story</span>(<span class="str">'Query Leads via SOQL'</span>);
+
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">sfQuery</span>(
+      request,
+      `SELECT Id, FirstName, LastName, Status FROM Lead WHERE Id = '${createdLeadId}'`,
+      token
+    );
+
+    <span class="fn">expect</span>(res.status()).<span class="fn">toBe</span>(<span class="num">200</span>);
+
+    <span class="kw">const</span> result = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="fn">expect</span>(result.totalSize).<span class="fn">toBe</span>(<span class="num">1</span>);
+    <span class="fn">expect</span>(result.records[<span class="num">0</span>].Id).<span class="fn">toBe</span>(createdLeadId);
+    <span class="fn">expect</span>(result.records[<span class="num">0</span>].FirstName).<span class="fn">toBe</span>(<span class="str">'API'</span>);
+  });
+
+  <span class="cm">// ── DELETE ────────────────────────────────────────────────</span>
+  test(<span class="str">'DELETE /sobjects/Lead/:id — clean up test Lead'</span>, <span class="kw">async</span> ({ request }) => {
+    <span class="kw">await</span> allure.<span class="fn">story</span>(<span class="str">'Delete Lead via API'</span>);
+
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">sfDelete</span>(request, `sobjects/Lead/${createdLeadId}`, token);
+
+    <span class="fn">expect</span>(res.status()).<span class="fn">toBe</span>(<span class="num">204</span>);
+
+    <span class="cm">// Confirm it's gone — should 404 now</span>
+    <span class="kw">const</span> gone = <span class="kw">await</span> <span class="fn">sfGet</span>(request, `sobjects/Lead/${createdLeadId}`, token);
+    <span class="fn">expect</span>(gone.status()).<span class="fn">toBe</span>(<span class="num">404</span>);
+  });
+
+});</pre></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(14,165,233,.12);color:var(--m10)">6</span>
+          <span class="step-t">tests/API/sf-opportunities-api.spec.js — Example</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="cb"><div class="cb-top"><span class="cb-file">tests/API/sf-opportunities-api.spec.js</span><span class="cb-lang">js</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre><span class="kw">import</span> { test, expect } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+<span class="kw">import</span> * <span class="kw">as</span> allure <span class="kw">from</span> <span class="str">'allure-js-commons'</span>;
+<span class="kw">import</span> { <span class="fn">getSFToken</span>, <span class="fn">sfPost</span>, <span class="fn">sfGet</span>, <span class="fn">sfDelete</span> } <span class="kw">from</span> <span class="str">'../../utils/sf-api-helpers.js'</span>;
+
+<span class="kw">let</span> token;
+<span class="kw">let</span> opportunityId;
+<span class="kw">let</span> accountId;
+
+test.<span class="fn">describe</span>(<span class="str">'Salesforce Opportunities API'</span>, () => {
+
+  test.<span class="fn">beforeAll</span>(<span class="kw">async</span> ({ request }) => {
+    token = <span class="kw">await</span> <span class="fn">getSFToken</span>(request);
+
+    <span class="cm">// Create a test Account to link the Opportunity to</span>
+    <span class="kw">const</span> acct = <span class="kw">await</span> (
+      <span class="kw">await</span> request.<span class="fn">post</span>(`${process.env.SF_URL}/services/data/v58.0/sobjects/Account`, {
+        headers: { Authorization: token, <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> },
+        data: { Name: <span class="str">`API Test Account ${Date.now()}`</span> },
+      })
+    ).<span class="fn">json</span>();
+    accountId = acct.id;
+  });
+
+  test.<span class="fn">afterAll</span>(<span class="kw">async</span> ({ request }) => {
+    <span class="cm">// Clean up Account (Opportunity auto-deletes with it)</span>
+    <span class="kw">if</span> (accountId) {
+      <span class="kw">await</span> <span class="fn">sfDelete</span>(request, `sobjects/Account/${accountId}`, token);
+    }
+  });
+
+  test.<span class="fn">beforeEach</span>(<span class="kw">async</span> () => {
+    <span class="kw">await</span> allure.<span class="fn">epic</span>(<span class="str">'CRM API'</span>);
+    <span class="kw">await</span> allure.<span class="fn">feature</span>(<span class="str">'Opportunity REST API'</span>);
+  });
+
+  test(<span class="str">'POST — create Opportunity and verify fields'</span>, <span class="kw">async</span> ({ request }) => {
+    <span class="kw">await</span> allure.<span class="fn">story</span>(<span class="str">'Create Opportunity via API'</span>);
+
+    <span class="kw">const</span> closeDate = <span class="kw">new</span> Date();
+    closeDate.<span class="fn">setDate</span>(closeDate.<span class="fn">getDate</span>() + <span class="num">30</span>);
+
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">sfPost</span>(request, <span class="str">'sobjects/Opportunity'</span>, {
+      Name: <span class="str">`API Opp ${Date.now()}`</span>,
+      AccountId: accountId,
+      StageName: <span class="str">'Needs Analysis'</span>,
+      CloseDate: closeDate.<span class="fn">toISOString</span>().<span class="fn">split</span>(<span class="str">'T'</span>)[<span class="num">0</span>],
+      Amount: <span class="num">50000</span>,
+    }, token);
+
+    <span class="fn">expect</span>(res.status()).<span class="fn">toBe</span>(<span class="num">201</span>);
+    <span class="kw">const</span> body = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="fn">expect</span>(body.success).<span class="fn">toBe</span>(<span class="kw">true</span>);
+    opportunityId = body.id;
+
+    <span class="cm">// Verify the created record</span>
+    <span class="kw">const</span> check = <span class="kw">await</span> <span class="fn">sfGet</span>(request, `sobjects/Opportunity/${opportunityId}`, token);
+    <span class="kw">const</span> opp = <span class="kw">await</span> check.<span class="fn">json</span>();
+    <span class="fn">expect</span>(opp.StageName).<span class="fn">toBe</span>(<span class="str">'Needs Analysis'</span>);
+    <span class="fn">expect</span>(opp.Amount).<span class="fn">toBe</span>(<span class="num">50000</span>);
+  });
+
+});</pre></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(14,165,233,.12);color:var(--m10)">7</span>
+          <span class="step-t">Agentic Way — tasks/api/lead-api-test.md</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <p>Instead of writing the API test yourself, write a task file and let <code>@🎭 generator</code> produce it:</p>
+          <div class="cb"><div class="cb-top"><span class="cb-file">tasks/api/lead-api-test.md</span><span class="cb-lang">markdown</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre><span class="cm"># Task: API Tests for Salesforce Lead Object</span>
+
+## Metadata
+- Type: API (no browser)
+- Allure Epic: CRM API / Feature: Lead REST API
+- Output Spec: tests/API/sf-leads-api.spec.js
+- Base helpers: utils/sf-api-helpers.js (getSFToken, sfGet, sfPost, sfPatch, sfDelete, sfQuery)
+
+## What to Test
+Use Salesforce REST API endpoint: /services/data/v58.0/sobjects/Lead
+
+### Test 1 — Create (POST)
+- POST to sobjects/Lead with: FirstName, LastName, Company, Email, Status, LeadSource
+- Assert: status 201, body.success === true, body.id is truthy
+- Save the ID for subsequent tests
+
+### Test 2 — Read (GET)
+- GET sobjects/Lead/:id
+- Assert: status 200, all fields match what was POSTed
+
+### Test 3 — Update (PATCH)
+- PATCH sobjects/Lead/:id with Status = 'Working - Contacted', Rating = 'Hot'
+- Assert: status 204
+- GET the record again and confirm fields updated
+
+### Test 4 — SOQL Query (GET /query)
+- SELECT Id, FirstName, Status FROM Lead WHERE Id = ':id'
+- Assert: status 200, totalSize = 1, record matches
+
+### Test 5 — Delete (DELETE)
+- DELETE sobjects/Lead/:id
+- Assert: status 204
+- GET the deleted record and assert 404
+
+## Agent Instructions
+- Import helpers from ../../utils/sf-api-helpers.js
+- Call getSFToken(request) in beforeAll and store as module-level variable
+- Add allure.epic/feature/story/severity annotations in beforeEach
+- Tests run sequentially — use module-level variables to share IDs between tests
+- No browser needed — this is pure HTTP</pre></div>
+          <div class="prompt-block" style="margin-top:12px">
+            <div class="prompt-label">⚡ Prompt for Generator</div>
+            <div class="prompt-text">Read tasks/api/lead-api-test.md.<br/>Read utils/sf-api-helpers.js to understand the available functions.<br/>Generate tests/API/sf-leads-api.spec.js — a complete Playwright API test file with full CRUD coverage, allure annotations, and proper beforeAll/afterAll cleanup.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(14,165,233,.12);color:var(--m10)">8</span>
+          <span class="step-t">Run Commands — API Tests</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <div class="cb"><div class="cb-top"><span class="cb-file">terminal</span><span class="cb-lang">bash</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre><span class="cm"># Run ONLY API tests (fast — no browser launch)</span>
+npm run test:api
+
+<span class="cm"># Run a specific API spec</span>
+npm run test:api:lead
+
+<span class="cm"># Run ONLY UI tests</span>
+npm run test:ui
+
+<span class="cm"># Run EVERYTHING — UI + API together</span>
+npm test
+
+<span class="cm"># View combined Allure report (UI + API in same report)</span>
+npm run report:allure</pre></div>
+          <div class="ib ib-ok"><span class="ib-icon">✅</span><div>API tests run in milliseconds (no browser). UI tests take seconds each. Running <code>npm test</code> executes both projects sequentially and produces a single Allure report showing both UI and API results under their respective epics.</div></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-hd" onclick="toggle(this)">
+          <span class="step-n" style="background:rgba(14,165,233,.12);color:var(--m10)">9</span>
+          <span class="step-t">Update Jenkinsfile — Add API Test Stage</span><span class="step-chev">▶</span>
+        </div>
+        <div class="step-body">
+          <p>Add a parallel API stage to the existing Jenkinsfile so UI and API tests run side-by-side:</p>
+          <div class="cb"><div class="cb-top"><span class="cb-file">Jenkinsfile — replace the Run Tests stage with parallel stages</span><span class="cb-lang">groovy</span><button class="cb-copy" onclick="cp(this)">copy</button></div>
+<pre>stage(<span class="str">'Run Tests'</span>) {
+  parallel {
+
+    stage(<span class="str">'UI Tests'</span>) {
+      when { expression { params.TEST_SUITE == <span class="str">'all'</span> || params.TEST_SUITE == <span class="str">'ui'</span> } }
+      steps {
+        withCredentials([
+          string(credentialsId: <span class="str">'SF_URL'</span>,          variable: <span class="str">'SF_URL'</span>),
+          string(credentialsId: <span class="str">'SF_USERNAME'</span>,     variable: <span class="str">'SF_USERNAME'</span>),
+          string(credentialsId: <span class="str">'SF_PASSWORD'</span>,     variable: <span class="str">'SF_PASSWORD'</span>),
+          string(credentialsId: <span class="str">'SF_SECURITY_TOKEN'</span>,variable: <span class="str">'SF_SECURITY_TOKEN'</span>)
+        ]) {
+          sh <span class="str">"""
+            npx playwright test \
+              --config=config/playwright.config.js \
+              --project=ui-tests \
+              --retries=${params.RETRIES}
+          """</span>
+        }
+      }
+    }
+
+    stage(<span class="str">'API Tests'</span>) {
+      when { expression { params.TEST_SUITE == <span class="str">'all'</span> || params.TEST_SUITE == <span class="str">'api'</span> } }
+      steps {
+        withCredentials([
+          string(credentialsId: <span class="str">'SF_URL'</span>,          variable: <span class="str">'SF_URL'</span>),
+          string(credentialsId: <span class="str">'SF_USERNAME'</span>,     variable: <span class="str">'SF_USERNAME'</span>),
+          string(credentialsId: <span class="str">'SF_PASSWORD'</span>,     variable: <span class="str">'SF_PASSWORD'</span>),
+          string(credentialsId: <span class="str">'SF_SECURITY_TOKEN'</span>,variable: <span class="str">'SF_SECURITY_TOKEN'</span>),
+          string(credentialsId: <span class="str">'SF_SESSION_ID'</span>,   variable: <span class="str">'SF_SESSION_ID'</span>)
+        ]) {
+          sh <span class="str">"""
+            npx playwright test \
+              --config=config/playwright.config.js \
+              --project=api-tests \
+              --retries=1
+          """</span>
+        }
+      }
+    }
+
+  }
+}</pre></div>
+          <div class="ib ib-tip"><span class="ib-icon">💡</span><div>Also update the <code>parameters</code> block to add <code>'ui'</code> and <code>'api'</code> as choices alongside <code>'all'</code>, <code>'lead'</code>, <code>'opportunity'</code>. Add <code>SF_SESSION_ID</code> as a new Jenkins Secret text credential for API auth.</div></div>
+        </div>
+      </div>
+
     </section>
 
   </main>
